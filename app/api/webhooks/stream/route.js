@@ -151,7 +151,7 @@ export async function POST(request) {
       );
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
       const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash-lite",
+        model: "gemini-2.0-flash",
       });
       const categories =
         booking.interviewer.categories?.join(", ") ?? "General";

@@ -121,22 +121,27 @@ export default function Home() {
         </div>
       </section>
       {/* LOGOS */}
-      <section className="relative z-10 border-y border-white/10 py-14">
+      <section className="relative z-10 border-y border-white/10 py-14 overflow-hidden">
         <p className="text-center text-xs font-medium text-stone-600 tracking-widest uppercase mb-8">
           Interviewees landed roles at
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-24 px-6">
-          {LOGOS.map((l) => (
-            <Image
-              key={l.alt}
-              src={l.src}
-              alt={l.alt}
-              width={50}
-              height={50}
-              className="h-6 w-auto opacity-60 grayscale"
-            />
-          ))}
+        <div className="relative w-full overflow-hidden">
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-r from-black to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-l from-black to-transparent" />
+
+          <div className="animate-marquee flex items-center gap-16">
+            {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((l, idx) => (
+              <Image
+                key={`${l.alt}-${idx}`}
+                src={l.src}
+                alt={l.alt}
+                width={100}
+                height={50}
+                className="h-7 w-auto opacity-60 grayscale shrink-0 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+              />
+            ))}
+          </div>
         </div>
       </section>
       <section className="relative z-10 py-28 max-w-5xl mx-auto px-6">

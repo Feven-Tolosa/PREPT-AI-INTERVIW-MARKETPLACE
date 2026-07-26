@@ -3,6 +3,7 @@
 "use server";
 
 import { db } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export const approvePayout = async ({ payoutId, adminPassword }) => {
   if (!adminPassword) throw new Error("Password required");
@@ -24,6 +25,9 @@ export const approvePayout = async ({ payoutId, adminPassword }) => {
       processedBy: "admin",
     },
   });
+
+  revalidatePath(`/payout/${payoutId}`);
+  revalidatePath("/dashboard");
 
   return { success: true };
 };

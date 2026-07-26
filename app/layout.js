@@ -58,6 +58,7 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 import { DM_Sans, Lora } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
@@ -100,10 +101,7 @@ export default function RootLayout({ children }) {
             <Header />
             <main className="min-h-screen">{children}</main>
             <Toaster richColors />
-
-            <footer className="relative z-10 border-t border-white/7 py-12  mx-auto px-6 flex flex-wrap items-center justify-center text-stone-400">
-              Made with ❤️ by daveontrack
-            </footer>
+            <Footer />
           </ThemeProvider>
         </body>
       </html>

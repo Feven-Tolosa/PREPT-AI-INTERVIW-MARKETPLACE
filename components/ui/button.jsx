@@ -62,7 +62,11 @@ function Button({
     return React.cloneElement(children, childProps);
   }
 
-  return <ButtonPrimitive data-slot="button" className={classes} {...props} />;
+  return (
+    <ButtonPrimitive data-slot="button" className={classes} {...props}>
+      {children}
+    </ButtonPrimitive>
+  );
 }
 
 export { Button, buttonVariants };
