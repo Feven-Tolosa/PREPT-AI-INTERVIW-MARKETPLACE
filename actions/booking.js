@@ -30,8 +30,8 @@ export const getInterviewerProfile = async (interviewerId) => {
         categories: true,
         creditRate: true,
         availabilities: {
-          where: { status: "AVAILABLE" },
-          select: { startTime: true, endTime: true },
+          where: { isActive: true },
+          select: { startTime: true, endTime: true, isActive: true },
           take: 1,
         },
         bookingsAsInterviewer: {
@@ -73,6 +73,31 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
   if (dbUser.credits < credits)
     throw new Error("Insufficient credits. Please upgrade your plan.");
 
+  // Verify the requested time falls inside the interviewer's active daily window
+  const availability = await db.availability.findFirst({
+    where: { interviewerId, isActive: true },
+  });
+
+  if (availability) {
+    const [sh, sm] = (availability.startTime ?? "").split(":").map(Number);
+    const [eh, em] = (availability.endTime ?? "").split(":").map(Number);
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    const winStart = new Date(start);
+    winStart.setHours(sh, sm, 0, 0);
+    const winEnd = new Date(start);
+    winEnd.setHours(eh, em, 0, 0);
+
+    if (isNaN(sh) || isNaN(sm) || isNaN(eh) || isNaN(em))
+      throw new Error("Interviewer has no valid availability window");
+    if (start < winStart || end > winEnd)
+      throw new Error(
+        "Selected time is outside the interviewer's availability window"
+      );
+  } else {
+    throw new Error("Interviewer is currently unavailable");
+  }
+
   // Check slot isn't already taken
   const conflict = await db.booking.findFirst({
     where: {
@@ -90,7 +115,8 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
   try {
     const streamClient = new StreamClient(
       process.env.NEXT_PUBLIC_STREAM_API_KEY,
-      process.env.STREAM_SECRET_KEY || process.env.STREAM_API_SECRET
+      process.env.STREAM_SECRET_KEY,
+      { timeout: 30_000 }
     );
 
     await streamClient.upsertUsers([

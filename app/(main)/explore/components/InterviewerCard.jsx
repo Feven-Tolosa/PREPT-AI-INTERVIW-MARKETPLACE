@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CATEGORY_LABEL } from "@/lib/data";
-import { formatTime } from "@/lib/helpers";
+import { formatTimeOfDay } from "@/lib/helpers";
 
 export default function InterviewerCard({ interviewer }) {
   const {
@@ -97,8 +97,8 @@ export default function InterviewerCard({ interviewer }) {
             </p>
             {availability ? (
               <p className="text-xs text-stone-600">
-                🟢 {formatTime(availability.startTime)} –{" "}
-                {formatTime(availability.endTime)}
+                🟢 Daily · {formatTimeOfDay(availability.startTime)} –{" "}
+                {formatTimeOfDay(availability.endTime)}
               </p>
             ) : (
               <p className="text-xs text-stone-700">No availability set</p>

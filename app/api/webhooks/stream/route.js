@@ -1,6 +1,10 @@
 // app/api/webhooks/stream/route.js
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { db } from "@/lib/prisma";
+import {
+  generateFeedback,
+  parseTranscript,
+  saveFeedbackForBooking,
+} from "@/lib/feedback";
 
 export async function POST(request) {
   const body = await request.json();
@@ -105,29 +109,6 @@ export async function POST(request) {
 
       // 2. Parse JSONL into readable conversation
       console.log(`[stream-webhook] Parsing JSONL transcript...`);
-      const lines = transcriptText
-        .trim()
-        .split("\n")
-        .filter(Boolean)
-        .map((line) => {
-          try {
-            return JSON.parse(line);
-          } catch {
-            return null;
-          }
-        })
-        .filter((entry) => entry?.type === "speech");
-
-      console.log(`[stream-webhook] Parsed ${lines.length} speech segments`);
-
-      if (lines.length === 0) {
-        console.log(
-          `[stream-webhook] No speech segments found in transcript, skipping`
-        );
-        return Response.json({ ok: true });
-      }
-
-      // Map clerkUserId to display name
       const speakerMap = {
         [booking.interviewer.clerkUserId]:
           booking.interviewer.name ?? "Interviewer",
@@ -135,9 +116,13 @@ export async function POST(request) {
           booking.interviewee.name ?? "Interviewee",
       };
 
-      const transcript = lines
-        .map((l) => `${speakerMap[l.speaker_id] ?? l.speaker_id}: ${l.text}`)
-        .join("\n");
+      const transcript = parseTranscript(transcriptText, speakerMap);
+      if (!transcript) {
+        console.log(
+          `[stream-webhook] No speech segments found in transcript, skipping`
+        );
+        return Response.json({ ok: true });
+      }
 
       console.log(
         `[stream-webhook] Transcript preview:\n${transcript.slice(0, 300)}${
@@ -146,103 +131,22 @@ export async function POST(request) {
       );
 
       // 3. Generate feedback via Gemini
-      console.log(
-        `[stream-webhook] Sending transcript to Gemini (gemini-2.5-flash-lite)...`
+      console.log(`[stream-webhook] Sending transcript to Gemini...`);
+      const feedbackData = await generateFeedback(
+        transcript,
+        booking.interviewer,
+        booking.interviewee
       );
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash-lite",
-      });
-      const categories =
-        booking.interviewer.categories?.join(", ") ?? "General";
-
-      const prompt = `You are an expert technical interviewer evaluating a mock interview.
-
-Interview categories: ${categories}
-Interviewer: ${booking.interviewer.name}
-Candidate: ${booking.interviewee.name}
-
-TRANSCRIPT:
-${transcript}
-
-Analyze the candidate's performance. Respond ONLY with a valid JSON object, no markdown, no backticks, no explanation:
-{
-  "summary": "2-3 sentence overall summary of the session",
-  "technical": "Assessment of technical knowledge and accuracy",
-  "communication": "Assessment of clarity, structure, and communication style",
-  "problemSolving": "Assessment of problem-solving approach and thought process",
-  "recommendation": "HIRE / CONSIDER / NO_HIRE with a one-sentence reason",
-  "strengths": ["strength 1", "strength 2", "strength 3"],
-  "improvements": ["improvement 1", "improvement 2", "improvement 3"],
-  "overallRating": "POOR or AVERAGE or GOOD or EXCELLENT"
-}`;
-
-      const result = await model.generateContent(prompt);
-      const raw = result.response
-        .text()
-        .trim()
-        .replace(/^```json|^```|```$/gm, "")
-        .trim();
-
-      console.log(
-        `[stream-webhook] Gemini raw response:\n${raw.slice(0, 500)}${
-          raw.length > 500 ? "..." : ""
-        }`
-      );
-
-      const feedbackData = JSON.parse(raw);
       console.log(
         `[stream-webhook] Feedback parsed — overallRating: ${feedbackData.overallRating} | recommendation: ${feedbackData.recommendation}`
       );
 
       // 4. Write to DB — upsert handles concurrent webhook retries cleanly (no P2002)
       console.log(`[stream-webhook] Writing feedback to DB...`);
-      await db.$transaction([
-        db.feedback.upsert({
-          where: { bookingId: booking.id },
-          create: {
-            bookingId: booking.id,
-            summary: feedbackData.summary,
-            technical: feedbackData.technical,
-            communication: feedbackData.communication,
-            problemSolving: feedbackData.problemSolving,
-            recommendation: feedbackData.recommendation,
-            strengths: feedbackData.strengths,
-            improvements: feedbackData.improvements,
-            overallRating: feedbackData.overallRating,
-          },
-          update: {}, // already exists — no-op, keep the original
-        }),
-        db.booking.update({
-          where: { id: booking.id },
-          data: { status: "COMPLETED" },
-        }),
-      ]);
+      await saveFeedbackForBooking(booking, feedbackData);
       console.log(
         `[stream-webhook] Feedback upserted + booking marked COMPLETED`
       );
-
-      // Credit transaction is outside the main transaction so we can check first
-      const earnExists = await db.creditTransaction.findFirst({
-        where: { bookingId: booking.id, type: "BOOKING_EARNING" },
-      });
-      if (!earnExists) {
-        await db.creditTransaction.create({
-          data: {
-            userId: booking.interviewer.id,
-            amount: booking.creditsCharged,
-            type: "BOOKING_EARNING",
-            bookingId: booking.id,
-          },
-        });
-        console.log(
-          `[stream-webhook] Credit earning transaction created (+${booking.creditsCharged} credits for interviewer)`
-        );
-      } else {
-        console.log(
-          `[stream-webhook] Earning transaction already exists, skipping`
-        );
-      }
 
       console.log(`[stream-webhook] ✓ All done for booking ${booking.id}`);
     }

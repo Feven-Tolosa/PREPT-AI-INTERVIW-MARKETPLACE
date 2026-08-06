@@ -2,18 +2,31 @@
 
 import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Video, Sparkles } from "lucide-react";
+import { Calendar, Clock, Video, Sparkles, Loader2 } from "lucide-react";
 import { FeedbackModal } from "./FeedbackModal";
 import { formatDate, formatDuration, formatTime } from "@/lib/helpers";
 import { RATING_LABEL, RATING_STYLES, STATUS_STYLES } from "@/lib/data";
+import { generateFeedbackReport } from "@/actions/feedback";
+import useFetch from "@/hooks/use-fetch";
 
 export function AppointmentCard({ booking, mode, isPast = false }) {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const { has } = useAuth();
+  const router = useRouter();
+  const {
+    loading: generating,
+    fn: generateReport,
+  } = useFetch(generateFeedbackReport);
+
+  const handleGenerateReport = async () => {
+    await generateReport({ bookingId: booking.id });
+    router.refresh();
+  };
 
   const {
     startTime,
@@ -46,6 +59,8 @@ export function AppointmentCard({ booking, mode, isPast = false }) {
         open={feedbackOpen}
         onOpenChange={setFeedbackOpen}
         feedback={feedback}
+        bookingId={booking.id}
+        mode={mode}
         intervieweeName={
           mode === "interviewer" ? booking.interviewee?.name : undefined
         }
@@ -158,6 +173,28 @@ export function AppointmentCard({ booking, mode, isPast = false }) {
 
         {(streamCallId || recordingUrl || feedback) && (
           <div className="flex items-center gap-2 flex-wrap pt-1">
+            {!feedback &&
+              isPast &&
+              streamCallId &&
+              (mode === "interviewer" ||
+                has?.({ plan: "starter" }) ||
+                has?.({ plan: "pro" })) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5 border-amber-400/20 text-amber-400 hover:bg-amber-400/10 hover:border-amber-400/40"
+                  onClick={handleGenerateReport}
+                  disabled={generating}
+                >
+                  {generating ? (
+                    <Loader2 size={12} className="animate-spin" />
+                  ) : (
+                    <Sparkles size={12} />
+                  )}
+                  {generating ? "Generating…" : "Generate report"}
+                </Button>
+              )}
+
             {!isPast && streamCallId && isUpcoming && (
               <Button variant="gold" size="sm" className="gap-2" asChild>
                 <Link href={`/call/${streamCallId}`}>
@@ -180,7 +217,9 @@ export function AppointmentCard({ booking, mode, isPast = false }) {
             )}
 
             {feedback &&
-              (has?.({ plan: "starter" }) || has?.({ plan: "pro" })) && (
+              (mode === "interviewer" ||
+                has?.({ plan: "starter" }) ||
+                has?.({ plan: "pro" })) && (
                 <>
                   <Button
                     variant="outline"

@@ -12,6 +12,7 @@ import {
   formatDateFull,
   formatTime,
   formatDateTab,
+  formatTimeOfDay,
   generateDates,
   generateSlots,
 } from "@/lib/helpers";
@@ -26,7 +27,30 @@ export default function SlotPicker({
 }) {
   const router = useRouter();
   const dates = useMemo(() => generateDates(DAYS_AHEAD), []);
-  const [selectedDate, setSelectedDate] = useState(dates[0]);
+
+  const availability = interviewer.availabilities?.[0];
+  const canAfford = userCredits >= interviewerCredits;
+  const bookings = useMemo(
+    () => interviewer.bookingsAsInterviewer ?? [],
+    [interviewer.bookingsAsInterviewer]
+  );
+
+  // Pick the first upcoming day that still has an open slot in the daily window
+  const initialDate = useMemo(() => {
+    if (!availability) return dates[0];
+    const firstWithSlots = dates.find((d) =>
+      generateSlots(
+        d,
+        availability.startTime,
+        availability.endTime,
+        bookings,
+        SLOT_DURATION_MINUTES
+      ).some((s) => s.available)
+    );
+    return firstWithSlots ?? dates[0];
+  }, [dates, availability, bookings]);
+
+  const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
 
@@ -43,19 +67,16 @@ export default function SlotPicker({
 
   const { data, loading, error, fn: bookFn } = useFetch(bookSlot);
 
-  const availability = interviewer.availabilities?.[0];
-  const canAfford = userCredits >= interviewerCredits;
-
   const slots = useMemo(() => {
     if (!availability) return [];
     return generateSlots(
       selectedDate,
       availability.startTime,
       availability.endTime,
-      interviewer.bookingsAsInterviewer ?? [],
+      bookings,
       SLOT_DURATION_MINUTES
     );
-  }, [selectedDate, availability, interviewer.bookingsAsInterviewer]);
+  }, [selectedDate, availability, bookings]);
 
   useEffect(() => {
     if (data?.success && data.streamCallId) {
@@ -88,15 +109,23 @@ export default function SlotPicker({
     });
   };
 
-  if (!availability) {
+  const windowActive = availability && availability.isActive !== false;
+
+  if (!availability || !windowActive) {
     return (
       <div className="bg-[#0f0f11] border border-white/10 rounded-2xl p-8 text-center flex flex-col items-center gap-2">
         <span className="text-2xl">🕐</span>
-        <p className="text-sm text-stone-500">No availability set yet.</p>
+        <p className="text-sm text-stone-500">
+          {!availability
+            ? "This interviewer hasn't set their availability yet."
+            : "The interviewer is currently unavailable."}
+        </p>
         <p className="text-xs text-stone-700">Check back later.</p>
       </div>
     );
   }
+
+  const allBooked = slots.length > 0 && slots.every((s) => s.isBooked);
 
   return (
     <>
@@ -116,7 +145,11 @@ export default function SlotPicker({
                 <GrayTitle>Book a session</GrayTitle>
               </h2>
               <p className="text-xs text-stone-500 font-light mt-1">
-                Select a date and available time slot.
+                Available every day ·{" "}
+                <span className="text-amber-400 font-medium">
+                  {formatTimeOfDay(availability.startTime)} –{" "}
+                  {formatTimeOfDay(availability.endTime)}
+                </span>
               </p>
             </div>
             <div className="text-right shrink-0">
@@ -136,6 +169,7 @@ export default function SlotPicker({
               const label = formatDateTab(date);
               const active =
                 date.toDateString() === selectedDate.toDateString();
+
               return (
                 <button
                   key={date.toDateString()}
@@ -144,13 +178,13 @@ export default function SlotPicker({
                   className={`shrink-0 flex flex-col items-center px-3.5 py-2.5 rounded-xl border text-xs transition-all duration-200 ${
                     active
                       ? "border-amber-400/40 bg-amber-400/10 text-amber-400"
-                      : "border-white/10 text-stone-500 hover:border-white/20 hover:text-stone-400"
+                      : "border-white/10 text-stone-400 hover:border-white/20 hover:text-stone-300"
                   }`}
                 >
                   <span className="font-medium">{label.top}</span>
                   <span
-                    className={`mt-0.5 ${
-                      active ? "text-amber-500/70" : "text-stone-700"
+                    className={`mt-0.5 text-[10px] ${
+                      active ? "text-amber-500/70" : "text-stone-600"
                     }`}
                   >
                     {label.bottom}
@@ -165,7 +199,9 @@ export default function SlotPicker({
           {/* Time grid */}
           {slots.length === 0 ? (
             <p className="text-xs text-stone-600 text-center py-4">
-              No slots in the availability window for this date.
+              {allBooked
+                ? "No open slots remaining — all slots on this date are booked."
+                : "No open slots remaining in the availability window for this date."}
             </p>
           ) : (
             <div className="grid grid-cols-3 gap-2">

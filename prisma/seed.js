@@ -11,7 +11,7 @@ const db = new PrismaClient({ adapter });
 
 // ── CHANGE THIS ───────────────────────────────────────────────────────────────
 // const BOOKING_ID = "your-booking-id-here";
-const BOOKING_ID = "baea6d9c-0d79-4226-88b3-416da0c72a87";
+const BOOKING_ID = "c9160e33-341f-4a59-853d-760d279881d5";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const feedback = {
@@ -23,6 +23,9 @@ const feedback = {
     "Articulate and structured in most answers. Thinks out loud effectively, which made it easy to follow his reasoning. Occasionally jumped to implementation before fully exploring the problem space.",
   problemSolving:
     "Good instinct for breaking problems down. Chose sensible data structures for most questions. The dynamic programming problem was a stretch — he identified the overlapping subproblems but didn't arrive at a memoised solution independently.",
+  technicalScore: 7,
+  communicationScore: 8,
+  problemSolvingScore: 6,
   recommendation:
     "Recommended for mid-level frontend roles at growth-stage startups. Not yet ready for senior FAANG interviews without deepening system design knowledge. Suggest focusing on: async JavaScript internals, large-scale component architecture, and DP patterns.",
   strengths: [
@@ -36,6 +39,53 @@ const feedback = {
     "Async/event loop internals",
     "Dynamic programming patterns",
     "Ask clarifying questions upfront",
+  ],
+  conceptsCovered: [
+    "React hooks",
+    "Closures",
+    "Event loop",
+    "Component lifecycle",
+    "System design",
+    "Dynamic programming",
+  ],
+  pace: "Maintained a steady pace throughout and used time well. Spent slightly too long on the first question, which cut into the system design discussion — worth watching as interview rounds get tighter.",
+  nextSteps: [
+    "Deep-dive into async JavaScript and the event loop",
+    "Practice large-scale component architecture",
+    "Work through 10 dynamic programming patterns",
+    "Always ask clarifying questions before jumping to code",
+  ],
+  questionBreakdown: [
+    {
+      question: "Explain how closures work in JavaScript with an example",
+      verdict: "STRONG",
+      notes:
+        "Gave a confident, correct explanation with a clear counter example.",
+    },
+    {
+      question: "Walk through the event loop and microtask queue ordering",
+      verdict: "WEAK",
+      notes:
+        "Knew the terms but mixed up ordering between microtasks and macrotasks.",
+    },
+    {
+      question: "Optimise a recursive tree traversal for large datasets",
+      verdict: "ADEQUATE",
+      notes:
+        "Identified the recursion depth issue but needed a hint toward iteration.",
+    },
+    {
+      question: "Design the component structure for a dashboard at scale",
+      verdict: "ADEQUATE",
+      notes:
+        "Solid start on component boundaries; didn't cover state management tradeoffs.",
+    },
+    {
+      question: "Solve the coin-change problem with minimal coins",
+      verdict: "ADEQUATE",
+      notes:
+        "Saw the overlapping subproblems but didn't reach a memoised solution unaided.",
+    },
   ],
   overallRating: "GOOD", // POOR | AVERAGE | GOOD | EXCELLENT
   sessionRating: 4,

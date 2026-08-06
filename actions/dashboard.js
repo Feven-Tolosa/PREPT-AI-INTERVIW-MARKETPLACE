@@ -10,7 +10,8 @@ import { WithdrawalRequestEmail } from "@/emails/WithdrawalRequestEmail";
 import { render } from "@react-email/render";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "dawitberiso406@gmail.com";
+const ADMIN_EMAIL = "piyushagarwalvo@gmail.com";
+
 const withdrawalLimiter = createRateLimiter({
   refillRate: 1,
   interval: "1h",
@@ -19,39 +20,31 @@ const withdrawalLimiter = createRateLimiter({
 
 // ─── AVAILABILITY ─────────────────────────────────────────────────────────────
 
-export const setAvailability = async ({ startTime, endTime }) => {
+const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+export const setAvailability = async ({ isActive = true, startTime, endTime }) => {
   const user = await currentUser();
   if (!user) throw new Error("Unauthorized");
 
   const dbUser = await db.user.findUnique({ where: { clerkUserId: user.id } });
   if (!dbUser || dbUser.role !== "INTERVIEWER") throw new Error("Forbidden");
 
+  if (typeof isActive !== "boolean") throw new Error("Invalid status");
   if (!startTime || !endTime) throw new Error("Start and end time required");
-  if (new Date(startTime) >= new Date(endTime))
+  if (!TIME_PATTERN.test(startTime) || !TIME_PATTERN.test(endTime))
+    throw new Error("Times must be in HH:mm format");
+  if (startTime >= endTime)
     throw new Error("Start time must be before end time");
 
   try {
-    const existing = await db.availability.findFirst({
-      where: { interviewerId: dbUser.id, status: "AVAILABLE" },
+    await db.availability.upsert({
+      where: { interviewerId: dbUser.id },
+      update: { isActive, startTime, endTime },
+      create: { interviewerId: dbUser.id, isActive, startTime, endTime },
     });
 
-    if (existing) {
-      await db.availability.update({
-        where: { id: existing.id },
-        data: { startTime: new Date(startTime), endTime: new Date(endTime) },
-      });
-    } else {
-      await db.availability.create({
-        data: {
-          interviewerId: dbUser.id,
-          startTime: new Date(startTime),
-          endTime: new Date(endTime),
-          status: "AVAILABLE",
-        },
-      });
-    }
-
     revalidatePath("/dashboard");
+    revalidatePath("/explore");
     return { success: true };
   } catch (err) {
     console.error(err);
@@ -67,7 +60,7 @@ export const getAvailability = async () => {
   if (!dbUser) throw new Error("User not found");
 
   return db.availability.findFirst({
-    where: { interviewerId: dbUser.id, status: "AVAILABLE" },
+    where: { interviewerId: dbUser.id },
   });
 };
 

@@ -145,8 +145,12 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center gap-6">
-            <span className="hover:text-stone-300 transition-colors cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-stone-300 transition-colors cursor-pointer">Terms of Service</span>
+            <Link href="/privacy" className="hover:text-stone-300 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-stone-300 transition-colors">
+              Terms of Service
+            </Link>
             <span className="hover:text-stone-300 transition-colors cursor-pointer">Cookie Settings</span>
           </div>
 

@@ -1,8 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -11,7 +9,6 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-
 
 // ─── ENUMS ───────────────────────────────────────────────
 
@@ -25,12 +22,6 @@ enum BookingStatus {
   SCHEDULED
   COMPLETED
   CANCELLED
-}
-
-enum AvailabilityStatus {
-  AVAILABLE
-  BOOKED
-  BLOCKED
 }
 
 enum PayoutStatus {
@@ -97,16 +88,20 @@ model User {
 }
 
 // ─── AVAILABILITY ────────────────────────────────────────
+// Recurring daily availability window. The interviewer sets a single
+// daily time range (HH:mm) which repeats every day while active.
 
 model Availability {
-  id            String             @id @default(uuid())
-  interviewerId String
-  interviewer   User               @relation(fields: [interviewerId], references: [id], onDelete: Cascade)
-  startTime     DateTime
-  endTime       DateTime
-  status        AvailabilityStatus @default(AVAILABLE)
+  id            String   @id @default(uuid())
+  interviewerId String   @unique
+  interviewer   User     @relation(fields: [interviewerId], references: [id], onDelete: Cascade)
+  isActive      Boolean  @default(true)
+  startTime     String
+  endTime       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  @@index([interviewerId, startTime])
+  @@index([interviewerId])
 }
 
 // ─── BOOKINGS ────────────────────────────────────────────
@@ -139,17 +134,32 @@ model Feedback {
   id             String         @id @default(uuid())
   bookingId      String         @unique
   booking        Booking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  summary        String         @db.Text
-  technical      String         @db.Text
-  communication  String         @db.Text
-  problemSolving String         @db.Text
-  recommendation String
-  strengths      String[]
-  improvements   String[]
-  overallRating  FeedbackRating
+  // AI-generated post-interview report (Stream webhook → Gemini)
+  summary             String?         @db.Text
+  technical           String?         @db.Text
+  communication       String?         @db.Text
+  problemSolving      String?         @db.Text
+  recommendation      String?
+  strengths           String[]
+  improvements        String[]
+  overallRating       FeedbackRating?
+  // Numeric 1-10 scores backing the visual score bars
+  technicalScore      Int?
+  communicationScore  Int?
+  problemSolvingScore Int?
+  // Extended analysis sections
+  conceptsCovered     String[]
+  pace                String?         @db.Text
+  nextSteps           String[]
+  questionBreakdown   Json?
+  // Interviewee rating of the interviewer
+  rating         Int?
+  comment        String?        @db.Text
+  // Interviewer's rating of the interviewee (AI report)
   sessionRating  Int?
   sessionComment String?        @db.Text
   createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
 }
 
 // ─── CREDIT TRANSACTIONS ─────────────────────────────────

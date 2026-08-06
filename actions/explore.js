@@ -25,8 +25,8 @@ export const getInterviewers = async () => {
         categories: true,
         creditRate: true,
         availabilities: {
-          where: { status: "AVAILABLE" },
-          select: { startTime: true, endTime: true },
+          where: { isActive: true },
+          select: { startTime: true, endTime: true, isActive: true },
           take: 1,
         },
       },
