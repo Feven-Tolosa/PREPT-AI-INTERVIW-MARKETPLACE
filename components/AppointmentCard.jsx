@@ -230,12 +230,14 @@ export function AppointmentCard({ booking, mode, isPast = false }) {
                     <Sparkles size={12} />
                     Full Feedback
                   </Button>
-                  <Badge
-                    variant="outline"
-                    className={RATING_STYLES[feedback.overallRating]}
-                  >
-                    ✦ {RATING_LABEL[feedback.overallRating]} performance
-                  </Badge>
+                  {feedback.overallRating && (
+                    <Badge
+                      variant="outline"
+                      className={RATING_STYLES[feedback.overallRating]}
+                    >
+                      ✦ {RATING_LABEL[feedback.overallRating]} performance
+                    </Badge>
+                  )}
                 </>
               )}
           </div>
