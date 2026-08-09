@@ -160,16 +160,37 @@ export function AppointmentCard({ booking, mode, isPast = false }) {
           </div>
         </div>
 
-        {feedback?.summary && (
-          <div className="rounded-xl border border-white/8 bg-[#141417] px-4 py-3 flex flex-col gap-1.5">
-            <p className="text-[10px] font-semibold text-stone-600 tracking-widest uppercase">
-              AI Feedback
-            </p>
-            <p className="text-xs text-stone-400 font-light leading-relaxed line-clamp-2">
-              {feedback.summary}
-            </p>
-          </div>
-        )}
+        {feedback?.summary &&
+          (mode === "interviewer" ||
+            has?.({ plan: "starter" }) ||
+            has?.({ plan: "pro" })) && (
+            <div className="rounded-xl border border-white/8 bg-[#141417] px-4 py-3 flex flex-col gap-1.5">
+              <p className="text-[10px] font-semibold text-stone-600 tracking-widest uppercase">
+                AI Feedback
+              </p>
+              <p className="text-xs text-stone-400 font-light leading-relaxed line-clamp-2">
+                {feedback.summary}
+              </p>
+            </div>
+          )}
+
+        {!feedback &&
+          isPast &&
+          status !== "CANCELLED" &&
+          streamCallId &&
+          (mode === "interviewer" ||
+            has?.({ plan: "starter" }) ||
+            has?.({ plan: "pro" })) && (
+            <div className="rounded-xl border border-white/8 bg-[#141417] px-4 py-3 flex flex-col gap-1.5">
+              <p className="text-[10px] font-semibold text-stone-600 tracking-widest uppercase">
+                AI Feedback
+              </p>
+              <p className="text-xs text-stone-400 font-light leading-relaxed">
+                Your AI feedback is being generated for this session. It will
+                appear here shortly — please check back in a few minutes.
+              </p>
+            </div>
+          )}
 
         {(streamCallId || recordingUrl || feedback) && (
           <div className="flex items-center gap-2 flex-wrap pt-1">
@@ -228,7 +249,7 @@ export function AppointmentCard({ booking, mode, isPast = false }) {
                     onClick={() => setFeedbackOpen(true)}
                   >
                     <Sparkles size={12} />
-                    Full Feedback
+                    View Feedback
                   </Button>
                   {feedback.overallRating && (
                     <Badge
