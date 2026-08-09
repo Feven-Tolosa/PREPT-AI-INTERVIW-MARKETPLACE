@@ -1,12 +1,27 @@
 // Assignment
 
+import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import PayoutReviewClient from "./_components/PayoutReviewClient";
 import { GoldTitle, GrayTitle, SectionLabel } from "@/components/reusables";
 
+// Admin-only review page — the withdrawal request email is sent to ADMIN_EMAIL
+// with the review link, so only that account may open it. Anyone else gets a
+// 404 (no hint that the payout exists).
 export default async function PayoutReviewPage({ params }) {
   const { id } = await params;
+
+  const user = await currentUser();
+  const adminEmail = process.env.ADMIN_EMAIL?.toLowerCase();
+  const isAdmin = Boolean(
+    user &&
+      adminEmail &&
+      user.emailAddresses?.some(
+        (e) => e.emailAddress?.toLowerCase() === adminEmail
+      )
+  );
+  if (!isAdmin) notFound();
 
   const payout = await db.payout.findUnique({
     where: { id },

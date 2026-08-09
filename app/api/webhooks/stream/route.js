@@ -1,4 +1,5 @@
 // app/api/webhooks/stream/route.js
+import { StreamClient } from "@stream-io/node-sdk";
 import { db } from "@/lib/prisma";
 import {
   generateFeedback,
@@ -7,7 +8,31 @@ import {
 } from "@/lib/feedback";
 
 export async function POST(request) {
-  const body = await request.json();
+  // Verify the request actually came from Stream before trusting it.
+  // The HMAC-SHA256 signature is computed over the raw (unparsed) body,
+  // so verification must happen before JSON.parse.
+  const rawBody = await request.text();
+  const signature = request.headers.get("x-signature");
+
+  const streamClient = new StreamClient(
+    process.env.NEXT_PUBLIC_STREAM_API_KEY,
+    process.env.STREAM_SECRET_KEY || process.env.STREAM_API_SECRET
+  );
+
+  if (!signature || !streamClient.verifyWebhook(rawBody, signature)) {
+    console.warn(
+      "[stream-webhook] ✗ Signature verification failed — rejecting webhook"
+    );
+    return Response.json({ ok: false }, { status: 401 });
+  }
+
+  let body;
+  try {
+    body = JSON.parse(rawBody);
+  } catch {
+    console.warn("[stream-webhook] ✗ Invalid JSON body — rejecting");
+    return Response.json({ ok: false }, { status: 400 });
+  }
   const eventType = body.type;
 
   console.log(`\n[stream-webhook] ← Received event: ${eventType}`);

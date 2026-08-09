@@ -57,6 +57,8 @@ function Slot(
   const { asChild: _removeAsChild, ref: _removeRefProp, ...restProps } = props;
   const mergedProps = mergeProps(childProps, restProps);
 
+  // Base is a motion component created during render — intentional for this primitive.
+  // eslint-disable-next-line react-hooks/static-components
   return (<Base {...mergedProps} ref={mergeRefs(childRef, ref)} />);
 }
 

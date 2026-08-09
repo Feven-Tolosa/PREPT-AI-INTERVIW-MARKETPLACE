@@ -1,6 +1,6 @@
 import { checkUser } from "@/lib/checkUser";
 import { Button } from "./ui/button";
-import { SignInButton, UserButton } from "@clerk/nextjs";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import RoleRedirect from "./RoleRedirect";
@@ -25,54 +25,50 @@ const Header = async () => {
       {user && <RoleRedirect role={user.role} />}
 
       <div className="flex items-center gap-3">
-        {!user ? (
-          <>
-            <SignInButton mode="modal">
-              <Button variant="ghost">Sign in</Button>
-            </SignInButton>
-            <SignInButton mode="modal">
-              <Button variant="gold">Get started →</Button>
-            </SignInButton>
-          </>
-        ) : (
-          <>
-            {user?.role === "INTERVIEWER" && (
+        <Show when="signed-out">
+          <SignInButton mode="modal">
+            <Button variant="ghost">Sign in</Button>
+          </SignInButton>
+          <SignInButton mode="modal">
+            <Button variant="gold">Get started →</Button>
+          </SignInButton>
+        </Show>
+
+        <Show when="signed-in">
+          {user?.role === "INTERVIEWER" && (
+            <Button variant="ghost" asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+          )}
+
+          {user?.role === "INTERVIEWEE" && (
+            <>
               <Button variant="ghost" asChild>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/explore">
+                  <Users size={16} />
+                  <span className="hidden md:inline">Explore</span>
+                </Link>
               </Button>
-            )}
+              <Button variant="default" asChild>
+                <Link href="/appointments">
+                  <CalendarDays size={16} />
+                  <span className="hidden md:inline">My Appointments</span>
+                </Link>
+              </Button>
+            </>
+          )}
 
-            {user?.role === "INTERVIEWEE" && (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link href="/explore">
-                    <Users size={16} />
-                    <span className="hidden md:inline">Explore</span>
-                  </Link>
-                </Button>
-                <Button variant="default" asChild>
-                  <Link href="/appointments">
-                    <CalendarDays size={16} />
-                    <span className="hidden md:inline">My Appointments</span>
-                  </Link>
-                </Button>
-              </>
-            )}
+          <CreditButton
+            role={user?.role === "INTERVIEWER" ? "INTERVIEWER" : "INTERVIEWEE"}
+            credits={
+              (user?.role === "INTERVIEWER"
+                ? user?.creditBalance
+                : user?.credits) ?? 0
+            }
+          />
 
-            <CreditButton
-              role={
-                user?.role === "INTERVIEWER" ? "INTERVIEWER" : "INTERVIEWEE"
-              }
-              credits={
-                (user?.role === "INTERVIEWER"
-                  ? user?.creditBalance
-                  : user?.credits) ?? 0
-              }
-            />
-
-            <UserButton />
-          </>
-        )}
+          <UserButton />
+        </Show>
       </div>
     </nav>
   );

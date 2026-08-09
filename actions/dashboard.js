@@ -10,7 +10,7 @@ import { WithdrawalRequestEmail } from "@/emails/WithdrawalRequestEmail";
 import { render } from "@react-email/render";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const ADMIN_EMAIL = "piyushagarwalvo@gmail.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 const withdrawalLimiter = createRateLimiter({
   refillRate: 1,

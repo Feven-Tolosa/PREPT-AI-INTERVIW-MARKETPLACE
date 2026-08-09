@@ -59,6 +59,7 @@ function CodeBlock({
 
   React.useEffect(() => {
     if (!writing) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisibleCode(code);
       onDone?.();
       onWrite?.({ index: code.length, length: code.length, done: true });

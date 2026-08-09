@@ -25,6 +25,7 @@ function StarLayer({
   const [boxShadow, setBoxShadow] = React.useState('');
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setBoxShadow(generateStars(count, starColor));
   }, [count, starColor]);
 
