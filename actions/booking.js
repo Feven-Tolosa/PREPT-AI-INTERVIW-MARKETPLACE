@@ -2,7 +2,7 @@
 
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { StreamClient } from "@stream-io/node-sdk";
+import { createStreamClient } from "@/lib/stream";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
 import { createRateLimiter, checkRateLimit } from "@/lib/arcjet";
@@ -113,11 +113,7 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
   // ── Create Stream call ─────────────────────────────────────────────────────
   let streamCallId;
   try {
-    const streamClient = new StreamClient(
-      process.env.NEXT_PUBLIC_STREAM_API_KEY,
-      process.env.STREAM_SECRET_KEY,
-      { timeout: 30_000 }
-    );
+    const streamClient = createStreamClient({ timeout: 30_000 });
 
     await streamClient.upsertUsers([
       {

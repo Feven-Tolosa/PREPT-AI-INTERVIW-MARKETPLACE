@@ -2,7 +2,7 @@
 
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { StreamClient } from "@stream-io/node-sdk";
+import { createStreamClient } from "@/lib/stream";
 
 export const getCallData = async (callId) => {
   const user = await currentUser();
@@ -37,10 +37,7 @@ export const getCallData = async (callId) => {
   const isInterviewee = booking.interviewee.clerkUserId === user.id;
   if (!isInterviewer && !isInterviewee) return { error: "Forbidden" };
 
-  const streamClient = new StreamClient(
-    process.env.NEXT_PUBLIC_STREAM_API_KEY,
-    process.env.STREAM_SECRET_KEY
-  );
+  const streamClient = createStreamClient();
 
   const token = streamClient.generateUserToken({
     user_id: user.id,

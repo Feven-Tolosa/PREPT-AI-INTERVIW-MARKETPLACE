@@ -290,8 +290,9 @@ export default function SlotPicker({
             <div className="flex items-start gap-2.5 rounded-xl border border-white/8 bg-white/2 px-3.5 py-3">
               <span className="text-sm shrink-0">🎥</span>
               <p className="text-xs text-stone-500 font-light leading-relaxed">
-                A video call room will be created and you&apos;ll be redirected
-                immediately after confirming.
+                A video call room will be created and added to your
+                appointments. You&apos;ll be redirected to My Appointments after
+                confirming.
               </p>
             </div>
 

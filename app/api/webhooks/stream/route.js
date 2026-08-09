@@ -1,6 +1,6 @@
 // app/api/webhooks/stream/route.js
-import { StreamClient } from "@stream-io/node-sdk";
 import { db } from "@/lib/prisma";
+import { createStreamClient } from "@/lib/stream";
 import {
   generateFeedback,
   parseTranscript,
@@ -14,10 +14,7 @@ export async function POST(request) {
   const rawBody = await request.text();
   const signature = request.headers.get("x-signature");
 
-  const streamClient = new StreamClient(
-    process.env.NEXT_PUBLIC_STREAM_API_KEY,
-    process.env.STREAM_SECRET_KEY || process.env.STREAM_API_SECRET
-  );
+  const streamClient = createStreamClient();
 
   if (!signature || !streamClient.verifyWebhook(rawBody, signature)) {
     console.warn(
