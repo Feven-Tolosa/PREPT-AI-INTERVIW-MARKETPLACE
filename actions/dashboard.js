@@ -10,8 +10,18 @@ import { WithdrawalRequestEmail } from "@/emails/WithdrawalRequestEmail";
 import { render } from "@react-email/render";
 import { buildAppUrl } from "@/lib/url";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
+// Lazy singleton — never constructed at import time, so `next build` succeeds
+// even when RESEND_API_KEY isn't set (e.g. CI / deployment without the env
+// var). Email sending is simply skipped and logged when the key is missing.
+let resend = null;
+const getResendClient = () => {
+  if (resend) return resend;
+  if (!process.env.RESEND_API_KEY) return null;
+  resend = new Resend(process.env.RESEND_API_KEY);
+  return resend;
+};
 
 const withdrawalLimiter = createRateLimiter({
   refillRate: 1,
@@ -163,25 +173,32 @@ export const requestWithdrawal = async ({
 
     // Fire admin email — non-blocking, failure won't affect the user
     try {
-      const reviewUrl = buildAppUrl(`/payout/${payout.id}`);
-      const html = await render(
-        WithdrawalRequestEmail({
-          interviewerName: dbUser.name ?? "Unknown",
-          interviewerEmail: dbUser.email,
-          credits,
-          platformFee,
-          netAmount,
-          paymentMethod,
-          paymentDetail,
-          reviewUrl,
-        })
-      );
-      await resend.emails.send({
-        from: "Prept <onboarding@resend.dev>",
-        to: ADMIN_EMAIL,
-        subject: `Withdrawal Request — ${dbUser.name} · ${credits} credits`,
-        html,
-      });
+      const resendClient = getResendClient();
+      if (!resendClient) {
+        console.error(
+          "Withdrawal email skipped: RESEND_API_KEY is not set in this environment"
+        );
+      } else {
+        const reviewUrl = buildAppUrl(`/payout/${payout.id}`);
+        const html = await render(
+          WithdrawalRequestEmail({
+            interviewerName: dbUser.name ?? "Unknown",
+            interviewerEmail: dbUser.email,
+            credits,
+            platformFee,
+            netAmount,
+            paymentMethod,
+            paymentDetail,
+            reviewUrl,
+          })
+        );
+        await resendClient.emails.send({
+          from: "Prept <onboarding@resend.dev>",
+          to: ADMIN_EMAIL,
+          subject: `Withdrawal Request — ${dbUser.name} · ${credits} credits`,
+          html,
+        });
+      }
     } catch (emailErr) {
       console.error("Withdrawal email failed:", emailErr);
     }
