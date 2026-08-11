@@ -1,4 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
+import { after } from "next/server";
 import { redirect } from "next/navigation";
 import PageHeader from "@/components/reusables";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,6 +9,7 @@ import {
   getInterviewerStats,
   getWithdrawalHistory,
 } from "@/actions/dashboard";
+import { autoGeneratePendingReports } from "@/lib/feedback";
 import AvailabilitySection from "./components/AvailabilitySection";
 import AppointmentsSection from "./components/AppointmentsSection";
 import EarningsSection from "./components/EarningsSection";
@@ -29,6 +31,31 @@ export default async function InterviewerDashboardPage() {
       // Assignment
       getWithdrawalHistory(),
     ]);
+
+  // Auto-generate AI feedback for past sessions that don't have a report yet.
+  // Runs in the background after the page streams (after()), so reports appear
+  // without any clicks. Sessions whose transcript isn't ready are skipped and
+  // retried on the next visit.
+  const now = new Date();
+  const pendingFeedbackIds = appointments
+    .filter(
+      (a) =>
+        a.streamCallId &&
+        !a.feedback &&
+        a.status !== "CANCELLED" &&
+        (a.status !== "SCHEDULED" || new Date(a.endTime) <= now)
+    )
+    .map((a) => a.id);
+  if (pendingFeedbackIds.length > 0) {
+    after(() => {
+      autoGeneratePendingReports({
+        clerkUserId: user.id,
+        bookingIds: pendingFeedbackIds,
+      }).catch((err) =>
+        console.error("[auto-feedback] Background generation failed:", err)
+      );
+    });
+  }
 
   return (
     <main className="min-h-screen bg-black">

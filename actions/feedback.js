@@ -3,12 +3,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/prisma";
-import {
-  fetchStreamTranscript,
-  generateFeedback,
-  parseTranscript,
-  saveFeedbackForBooking,
-} from "@/lib/feedback";
+import { generateFeedbackForBooking } from "@/lib/feedback";
 
 // Generates the AI feedback report on demand after an interview call. Used as a
 // manual fallback when the Stream webhook hasn't fired (e.g. local dev). Anyone
@@ -40,35 +35,7 @@ export const generateFeedbackReport = async ({ bookingId }) => {
   const isInterviewee = booking.interviewee.clerkUserId === user.id;
   if (!isInterviewer && !isInterviewee) throw new Error("Forbidden");
 
-  if (booking.feedback) return { success: true, alreadyExists: true };
-  if (!booking.streamCallId)
-    throw new Error("This session has no call to analyze");
-
-  // 1. Pull the transcript from Stream
-  const transcriptText = await fetchStreamTranscript(booking.streamCallId);
-  if (!transcriptText) {
-    throw new Error(
-      "The transcript isn't ready yet. Please try again in a couple of minutes."
-    );
-  }
-
-  // 2. Parse into a readable conversation
-  const speakerMap = {
-    [booking.interviewer.clerkUserId]: booking.interviewer.name ?? "Interviewer",
-    [booking.interviewee.clerkUserId]: booking.interviewee.name ?? "Interviewee",
-  };
-  const transcript = parseTranscript(transcriptText, speakerMap);
-  if (!transcript) {
-    throw new Error("No speech was detected in this session's recording.");
-  }
-
-  // 3. Generate + save the report
-  const feedbackData = await generateFeedback(
-    transcript,
-    booking.interviewer,
-    booking.interviewee
-  );
-  await saveFeedbackForBooking(booking, feedbackData);
+  await generateFeedbackForBooking(booking);
 
   revalidatePath("/dashboard");
   revalidatePath("/appointments");

@@ -1,7 +1,9 @@
 import { currentUser } from "@clerk/nextjs/server";
+import { after } from "next/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getIntervieweeAppointments } from "@/actions/appointments";
+import { autoGeneratePendingReports } from "@/lib/feedback";
 import { AppointmentCard } from "@/components/AppointmentCard";
 import PageHeader from "@/components/reusables";
 import { Button } from "@/components/ui/button";
@@ -19,6 +21,24 @@ export default async function MyAppointmentsPage() {
   const past = appointments.filter(
     (a) => a.status !== "SCHEDULED" || new Date(a.endTime) <= now
   );
+
+  // Auto-generate AI feedback for past sessions that don't have a report yet.
+  // Runs in the background after the page streams (after()), so reports appear
+  // without any clicks. Sessions whose transcript isn't ready are skipped and
+  // retried on the next visit.
+  const pendingFeedbackIds = past
+    .filter((b) => b.streamCallId && !b.feedback && b.status !== "CANCELLED")
+    .map((b) => b.id);
+  if (pendingFeedbackIds.length > 0) {
+    after(() => {
+      autoGeneratePendingReports({
+        clerkUserId: user.id,
+        bookingIds: pendingFeedbackIds,
+      }).catch((err) =>
+        console.error("[auto-feedback] Background generation failed:", err)
+      );
+    });
+  }
 
   return (
     <main className="min-h-screen bg-black">

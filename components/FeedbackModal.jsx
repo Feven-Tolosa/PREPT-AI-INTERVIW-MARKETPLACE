@@ -47,7 +47,8 @@ function scoreStyle(n) {
 
 const VERDICT_STYLE = {
   STRONG: "border-green-500/20 text-green-400",
-  ADEQUATE: "border-amber-400/20 text-amber-400",
+  GOOD: "border-blue-500/20 text-blue-400",
+  FAIR: "border-amber-400/20 text-amber-400",
   WEAK: "border-red-500/20 text-red-400",
 };
 
@@ -151,9 +152,17 @@ function buildReportText(feedback, intervieweeName) {
 
   if (Array.isArray(feedback.questionBreakdown) && feedback.questionBreakdown.length) {
     L.push("Question breakdown:");
-    feedback.questionBreakdown.forEach((q, i) =>
-      L.push(`  ${i + 1}. ${q.question} — ${q.verdict}: ${q.notes || ""}`)
-    );
+    feedback.questionBreakdown.forEach((q, i) => {
+      L.push(`  ${i + 1}. ${q.question} — ${q.verdict}: ${q.notes || ""}`);
+      if (Array.isArray(q.strengths) && q.strengths.length) {
+        L.push("    Strengths:");
+        q.strengths.forEach((s) => L.push(`      ✓ ${s}`));
+      }
+      if (Array.isArray(q.improvements) && q.improvements.length) {
+        L.push("    To improve:");
+        q.improvements.forEach((s) => L.push(`      ○ ${s}`));
+      }
+    });
     L.push("");
   }
 
@@ -401,7 +410,7 @@ export function FeedbackModal({
                         </p>
                         <Badge
                           variant="outline"
-                          className={`shrink-0 ${VERDICT_STYLE[q.verdict] ?? VERDICT_STYLE.ADEQUATE}`}
+                          className={`shrink-0 ${VERDICT_STYLE[q.verdict] ?? VERDICT_STYLE.FAIR}`}
                         >
                           {q.verdict}
                         </Badge>
@@ -410,6 +419,36 @@ export function FeedbackModal({
                         <p className="text-xs text-stone-500 font-light leading-relaxed">
                           {q.notes}
                         </p>
+                      )}
+                      {q.strengths?.length > 0 && (
+                        <div className="flex flex-col gap-1 mt-1">
+                          <p className="text-[10px] uppercase tracking-widest text-green-500/70">
+                            Strengths
+                          </p>
+                          {q.strengths.map((s, j) => (
+                            <p
+                              key={j}
+                              className="text-xs text-green-400/90 font-light leading-relaxed"
+                            >
+                              ✓ {s}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                      {q.improvements?.length > 0 && (
+                        <div className="flex flex-col gap-1 mt-1">
+                          <p className="text-[10px] uppercase tracking-widest text-red-500/70">
+                            To improve
+                          </p>
+                          {q.improvements.map((s, j) => (
+                            <p
+                              key={j}
+                              className="text-xs text-red-400/90 font-light leading-relaxed"
+                            >
+                              ○ {s}
+                            </p>
+                          ))}
+                        </div>
                       )}
                     </div>
                   ))}
@@ -467,7 +506,7 @@ export function FeedbackModal({
                       variant="outline"
                       className="justify-start border-red-500/20 text-red-400 whitespace-normal"
                     >
-                      ✓ {imp}
+                      ○ {imp}
                     </Badge>
                   ))}
                 </div>
