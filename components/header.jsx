@@ -10,6 +10,12 @@ import { CalendarDays, Users } from "lucide-react";
 const Header = async () => {
   const user = await checkUser();
 
+  const isAdmin = Boolean(
+    user &&
+      process.env.ADMIN_EMAIL &&
+      user.email?.toLowerCase() === process.env.ADMIN_EMAIL?.toLowerCase()
+  );
+
   return (
     <nav className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-3 sm:px-10 py-3 border-b border-white/7 backdrop-blur-xl">
       <Link href="/">
@@ -22,7 +28,7 @@ const Header = async () => {
         />
       </Link>
 
-      {user && <RoleRedirect role={user.role} />}
+      {user && <RoleRedirect role={user.role} isAdmin={isAdmin} />}
 
       <div className="flex items-center gap-3">
         <Show when="signed-out">

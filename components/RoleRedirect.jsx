@@ -6,11 +6,15 @@ import { usePathname, useRouter } from "next/navigation";
 const INTERVIEWER_ONLY = ["/appointments"];
 const INTERVIEWEE_ONLY = ["/dashboard"];
 
-export default function RoleRedirect({ role }) {
+export default function RoleRedirect({ role, isAdmin = false }) {
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
+    // Admins (e.g. the payout review account) never have an interviewer /
+    // interviewee role, so skip onboarding and role-based redirects for them.
+    if (isAdmin) return;
+
     if (role === "UNASSIGNED" && pathname !== "/onboarding")
       router.replace("/onboarding");
     // Already onboarded users shouldn't be on /onboarding
@@ -28,7 +32,7 @@ export default function RoleRedirect({ role }) {
       INTERVIEWEE_ONLY.some((p) => pathname.startsWith(p))
     )
       router.replace("/appointments");
-  }, [role, pathname, router]);
+  }, [role, pathname, router, isAdmin]);
 
   return null;
 }
