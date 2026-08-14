@@ -13,7 +13,14 @@ export default function RoleRedirect({ role, isAdmin = false }) {
   useEffect(() => {
     // Admins (e.g. the payout review account) never have an interviewer /
     // interviewee role, so skip onboarding and role-based redirects for them.
-    if (isAdmin) return;
+    // Route them to the payout review (/payout forwards to the latest
+    // request) so signing in lands them there.
+    if (isAdmin) {
+      if (!pathname.startsWith("/payout")) {
+        router.replace("/payout");
+      }
+      return;
+    }
 
     if (role === "UNASSIGNED" && pathname !== "/onboarding")
       router.replace("/onboarding");
