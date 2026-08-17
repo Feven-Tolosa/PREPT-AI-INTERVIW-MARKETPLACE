@@ -16,6 +16,7 @@ import PricingSection from '@/components/PricingSection'
 import FaqAccordion from '@/components/FaqAccordion'
 import HowItWorks from '@/components/HowItWorks'
 import DemoPreview from '@/components/DemoPreview'
+import Testimonials from '@/components/Testimonials'
 
 import HeroPreview from '@/components/HeroPreview'
 
@@ -351,8 +352,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DEMO PRIVIEW */}
+      {/* DEMO PREVIEW */}
       <DemoPreview />
+
+      {/* TESTIMONIALS */}
+      <Testimonials />
 
       {/* PRICING */}
       <section className='relative z-10 pb-28 max-w-5xl mx-auto px-6'>
