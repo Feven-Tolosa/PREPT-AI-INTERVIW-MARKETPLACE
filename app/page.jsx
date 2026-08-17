@@ -16,6 +16,7 @@ import BentoCard from '@/components/BentoCard'
 import PricingSection from '@/components/PricingSection'
 import FaqAccordion from '@/components/FaqAccordion'
 import HowItWorks from '@/components/HowItWorks'
+import DemoPreview from '@/components/DemoPreview'
 
 function MockUI({ rows = 3 }) {
   const widths = ['w-4/5', 'w-3/5', 'w-2/5', 'w-4/5', 'w-1/2']
@@ -28,7 +29,7 @@ function MockUI({ rows = 3 }) {
   ]
 
   return (
-    <div className='mt-5 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 overflow-hidden'>
+    <div className='mt-5 rounded-xl bg-white/3 backdrop-blur-md border border-white/10 overflow-hidden'>
       <div className='h-9 bg-white/5 border-b border-white/10 flex items-center px-3.5 gap-1.5'>
         <span className='w-2 h-2 rounded-full bg-[#ff5f57]' />
         <span className='w-2 h-2 rounded-full bg-[#ffbd2e]' />
@@ -121,8 +122,8 @@ export default function Home() {
         </p>
 
         <div className='relative w-full overflow-hidden'>
-          <div className='pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-r from-black to-transparent' />
-          <div className='pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-l from-black to-transparent' />
+          <div className='pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-linear-to-r from-black to-transparent' />
+          <div className='pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-linear-to-l from-black to-transparent' />
 
           <div className='animate-marquee flex items-center gap-16'>
             {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((l, idx) => (
@@ -172,7 +173,7 @@ export default function Home() {
               title={<GrayTitle>Credit System</GrayTitle>}
               desc='Subscribe for monthly credits. Book sessions. Interviewers earn and withdraw any time.'
             >
-              <div className='mt-5 rounded-xl bg-white/[0.03] backdrop-blur-md border border-white/10 p-5 flex justify-between items-end'>
+              <div className='mt-5 rounded-xl bg-white/3 backdrop-blur-md border border-white/10 p-5 flex justify-between items-end'>
                 <div>
                   <p className='text-xs text-stone-600 mb-1'>Your balance</p>
                   <p className='font-serif text-4xl leading-none bg-linear-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent'>
@@ -251,9 +252,9 @@ export default function Home() {
           {ROLES.map((role) => (
             <div
               key={role.label}
-              className='relative group bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:border-amber-400/25 rounded-2xl p-12 h-full transition-all duration-300 overflow-hidden shadow-[0_4px_40px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_4px_60px_-12px_rgba(251,191,36,0.12)]'
+              className='relative group bg-white/3 backdrop-blur-xl border border-white/10 hover:border-amber-400/25 rounded-2xl p-12 h-full transition-all duration-300 overflow-hidden shadow-[0_4px_40px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_4px_60px_-12px_rgba(251,191,36,0.12)]'
             >
-              <div className='absolute inset-0 bg-gradient-to-br from-amber-400/[0.05] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none' />
+              <div className='absolute inset-0 bg-linear-to-br from-amber-400/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none' />
               <div className='absolute -bottom-24 -right-24 w-48 h-48 bg-amber-400/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none' />
 
               <span className='relative inline-block text-xs font-semibold text-amber-400 tracking-widest uppercase border border-amber-400/20 bg-amber-400/10 backdrop-blur-sm rounded-full px-3 py-1.5 mb-5'>
@@ -282,6 +283,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* DEMO PRIVIEW */}
+      <DemoPreview />
 
       {/* PRICING */}
       <section className='relative z-10 pb-28 max-w-5xl mx-auto px-6'>
