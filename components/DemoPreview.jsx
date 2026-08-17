@@ -357,118 +357,118 @@ export default function DemoPreview() {
   }, [cycleTab]);
 
   return (
-    <section className="relative z-10 py-20 sm:py-28 w-full">
-      <div className="text-center mb-12 sm:mb-16 px-6">
+    <section className='relative z-10 py-20 sm:py-28 w-full'>
+      <div className='text-center mb-12 sm:mb-16 px-6'>
         <SectionLabel>See it in action</SectionLabel>
         <SectionHeading
-          gray="A platform built for"
-          gold="real interview prep"
+          gray='A platform built for'
+          gold='real interview prep'
         />
-        <p className="text-stone-400 mt-4 text-sm max-w-lg mx-auto leading-relaxed">
+        <p className='text-stone-400 mt-4 text-sm max-w-lg mx-auto leading-relaxed'>
           Watch how Prept combines expert-led mock interviews with AI-powered
           tools to give you the edge in your next interview.
         </p>
       </div>
 
-      <div className="relative group px-4 sm:px-8 lg:px-12">
+      <div className='relative group px-4 sm:px-8 lg:px-12'>
         {/* Glow behind frame */}
-        <div className="absolute -inset-4 sm:-inset-6 lg:-inset-8 bg-linear-to-b from-amber-400/10 via-amber-400/5 to-transparent rounded-3xl blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
+        <div className='absolute -inset-4 sm:-inset-6 lg:-inset-8 bg-linear-to-b from-amber-400/10 via-amber-400/5 to-transparent rounded-3xl blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700' />
 
-        <div className="relative rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden shadow-[0_0_80px_-20px_rgba(251,191,36,0.1)]">
+        <div className='relative rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden shadow-[0_0_80px_-20px_rgba(251,191,36,0.1)]'>
           {/* Browser chrome */}
-          <div className="flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 border-b border-white/10 bg-white/[0.02]">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-            <div className="ml-3 sm:ml-4 flex-1 max-w-xs h-6 rounded-md bg-white/5 border border-white/10 flex items-center px-3">
-              <span className="text-[10px] text-stone-500 font-mono">
+          <div className='flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 border-b border-white/10 bg-white/[0.02]'>
+            <span className='w-2.5 h-2.5 rounded-full bg-[#ff5f57]' />
+            <span className='w-2.5 h-2.5 rounded-full bg-[#ffbd2e]' />
+            <span className='w-2.5 h-2.5 rounded-full bg-[#28c840]' />
+            <div className='ml-3 sm:ml-4 flex-1 max-w-xs h-6 rounded-md bg-white/5 border border-white/10 flex items-center px-3'>
+              <span className='text-[10px] text-stone-500 font-mono'>
                 prept.app/interview/session
               </span>
             </div>
           </div>
 
-          {/* Tab bar */}
-          <div className="flex items-center gap-1 px-4 sm:px-6 py-2.5 border-b border-white/10 bg-white/[0.02] overflow-x-auto">
+          {/* Tab bar — scattered evenly */}
+          <div className='flex items-center justify-between px-6 sm:px-10 py-3 border-b border-white/10 bg-white/[0.02]'>
             {DEMO_TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${
+                className={`relative flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-lg text-[11px] sm:text-xs font-medium transition-all duration-300 cursor-pointer ${
                   activeTab === tab.id
-                    ? "bg-amber-400/10 text-amber-400 border border-amber-400/20"
-                    : "text-stone-500 hover:text-stone-300 hover:bg-white/5 border border-transparent"
+                    ? 'bg-amber-400/10 text-amber-400 border border-amber-400/20'
+                    : 'text-stone-500 hover:text-stone-300 hover:bg-white/5 border border-transparent'
                 }`}
               >
                 {tab.icon}
                 {tab.label}
                 {activeTab === tab.id && (
-                  <span className="absolute -bottom-[11px] left-1/2 -translate-x-1/2 w-8 h-[2px] bg-amber-400 rounded-full" />
+                  <span className='absolute -bottom-[13px] left-1/2 -translate-x-1/2 w-10 h-[2px] bg-amber-400 rounded-full' />
                 )}
               </button>
             ))}
           </div>
 
-          {/* Demo content — taller on large screens */}
-          <div className="relative h-[280px] sm:aspect-video lg:aspect-[21/9] bg-gradient-to-br from-[#0a0a0d] via-[#0f0f14] to-[#0a0a0d]">
+          {/* Demo content — fills available screen height */}
+          <div className='relative min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] bg-gradient-to-br from-[#0a0a0d] via-[#0f0f14] to-[#0a0a0d]'>
             {/* Decorative grid */}
             <div
-              className="absolute inset-0 opacity-[0.03]"
+              className='absolute inset-0 opacity-[0.03]'
               style={{
                 backgroundImage:
-                  "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-                backgroundSize: "40px 40px",
+                  'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                backgroundSize: '40px 40px',
               }}
             />
 
             {/* Video Call — always mounted, hidden via opacity */}
             <div
               className={`absolute inset-0 transition-opacity duration-500 ${
-                activeTab === "video"
-                  ? "opacity-100"
-                  : "opacity-0 pointer-events-none"
+                activeTab === 'video'
+                  ? 'opacity-100'
+                  : 'opacity-0 pointer-events-none'
               }`}
             >
-              <VideoCallView active={activeTab === "video"} />
+              <VideoCallView active={activeTab === 'video'} />
             </div>
 
             {/* AI Questions */}
             <div
               className={`absolute inset-0 transition-opacity duration-500 ${
-                activeTab === "ai"
-                  ? "opacity-100"
-                  : "opacity-0 pointer-events-none"
+                activeTab === 'ai'
+                  ? 'opacity-100'
+                  : 'opacity-0 pointer-events-none'
               }`}
             >
-              <AIQuestionsView active={activeTab === "ai"} />
+              <AIQuestionsView active={activeTab === 'ai'} />
             </div>
 
             {/* AI Feedback */}
             <div
               className={`absolute inset-0 transition-opacity duration-500 ${
-                activeTab === "feedback"
-                  ? "opacity-100"
-                  : "opacity-0 pointer-events-none"
+                activeTab === 'feedback'
+                  ? 'opacity-100'
+                  : 'opacity-0 pointer-events-none'
               }`}
             >
-              <AIFeedbackView active={activeTab === "feedback"} />
+              <AIFeedbackView active={activeTab === 'feedback'} />
             </div>
           </div>
         </div>
       </div>
 
       {/* Feature pills */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mt-8 px-6">
+      <div className='flex flex-wrap items-center justify-center gap-3 mt-8 px-6'>
         {DEMO_TABS.map((tab) => (
           <div
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-sm text-xs cursor-pointer transition-all duration-300 ${
               activeTab === tab.id
-                ? "bg-amber-400/10 border border-amber-400/25 text-amber-300"
-                : "bg-white/5 border border-white/10 text-stone-400 hover:border-white/20 hover:text-stone-300"
+                ? 'bg-amber-400/10 border border-amber-400/25 text-amber-300'
+                : 'bg-white/5 border border-white/10 text-stone-400 hover:border-white/20 hover:text-stone-300'
             }`}
           >
-            <span className={activeTab === tab.id ? "text-amber-400" : ""}>
+            <span className={activeTab === tab.id ? 'text-amber-400' : ''}>
               {tab.icon}
             </span>
             {tab.label}
@@ -476,5 +476,5 @@ export default function DemoPreview() {
         ))}
       </div>
     </section>
-  );
+  )
 }
