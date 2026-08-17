@@ -374,31 +374,63 @@ export default function Home() {
 
       {/* FINAL CTA */}
       <section className='relative z-10 pb-28 max-w-5xl mx-auto px-6'>
-        <div className='relative border border-amber-400/20 rounded-3xl px-3 sm:px-16 py-20 bg-linear-to-br from-amber-400/5 text-center overflow-hidden'>
+        <div className='relative rounded-3xl px-6 sm:px-16 py-24 overflow-hidden border border-white/[0.06]'>
+          {/* Background layers */}
+          <div className='absolute inset-0 bg-white/[0.02] backdrop-blur-xl' />
+          <div className='absolute inset-0 bg-gradient-to-br from-amber-400/[0.08] via-transparent to-orange-500/[0.04]' />
+          <div className='absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-amber-400/10 rounded-full blur-[120px] pointer-events-none' />
+          <div className='absolute bottom-0 right-0 w-[300px] h-[300px] bg-orange-500/8 rounded-full blur-[100px] pointer-events-none' />
+          <div className='absolute top-1/2 left-0 w-[200px] h-[200px] bg-amber-300/5 rounded-full blur-[80px] pointer-events-none' />
           <StarsBackgroundDemo />
 
-          <h2 className='font-serif relative text-4xl md:text-5xl leading-tight tracking-tight mb-4'>
-            <GrayTitle>Your next interview</GrayTitle>
-            <br />
-            <GoldTitle>starts here</GoldTitle>
-          </h2>
+          {/* Grid overlay */}
+          <div
+            className='absolute inset-0 opacity-[0.015] pointer-events-none'
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
+            }}
+          />
 
-          <p className='relative text-stone-400 font-light text-sm mb-11'>
-            Join thousands of engineers already levelling up on Prept.
-          </p>
+          <div className='relative z-10 text-center'>
+            {/* Pill */}
+            <div className='inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] backdrop-blur-md border border-white/[0.08] mb-8'>
+              <span className='relative flex h-1.5 w-1.5'>
+                <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
+                <span className='relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-400' />
+              </span>
+              <span className='text-[11px] text-stone-400 font-medium'>
+                Join 2,400+ engineers already on Prept
+              </span>
+            </div>
 
-          <div className='flex flex-col sm:flex-row justify-center gap-4'>
-            <Link href='/onboarding' className='relative'>
-              <Button variant='gold' size='hero'>
-                Get started
-              </Button>
-            </Link>
+            <h2 className='font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-[-0.03em] mb-5'>
+              <span className='bg-linear-to-br from-stone-100 via-stone-200 to-stone-500 bg-clip-text text-transparent'>
+                Your next interview
+              </span>
+              <br />
+              <span className='bg-linear-to-br from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent'>
+                starts here
+              </span>
+            </h2>
 
-            <Link href='/explore' className='relative'>
-              <Button variant='outline' size='hero'>
-                Browse Interviewers →
-              </Button>
-            </Link>
+            <p className='text-stone-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed mb-10'>
+              Stop prepping alone. Practice with senior engineers, get AI-powered feedback, and walk into your next interview with confidence.
+            </p>
+
+            <div className='flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4'>
+              <Link href='/onboarding'>
+                <Button variant='gold' size='hero'>
+                  Get started free
+                </Button>
+              </Link>
+              <Link href='/explore'>
+                <Button variant='outline' size='hero'>
+                  Browse Interviewers →
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
