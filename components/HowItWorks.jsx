@@ -51,7 +51,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className='relative z-10 py-20 max-w-5xl mx-auto px-6'>
+    <section className='relative z-10 py-24 max-w-5xl mx-auto px-6'>
       <div className='text-center mb-20'>
         <SectionLabel>How it works</SectionLabel>
         <SectionHeading gray='From sign-up to' gold='interview-ready' />
