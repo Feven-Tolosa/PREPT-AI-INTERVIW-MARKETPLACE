@@ -6,17 +6,18 @@ import {
   SectionHeading,
   SectionLabel,
 } from '@/components/reusables'
-import { CodeDemo } from '@/components/demo-components-animate-code'
 import Link from 'next/link'
 import { AI_TAGS, AVATARS, LOGOS, ROLES, SLOTS } from '@/lib/data'
 import Image from 'next/image'
 import { StarsBackgroundDemo } from '@/components/demo-components-backgrounds-stars'
-import { Bot, Wallet } from 'lucide-react'
+import { ArrowUpRight, Bot, Star, Wallet } from 'lucide-react'
 import BentoCard from '@/components/BentoCard'
 import PricingSection from '@/components/PricingSection'
 import FaqAccordion from '@/components/FaqAccordion'
 import HowItWorks from '@/components/HowItWorks'
 import DemoPreview from '@/components/DemoPreview'
+
+import HeroPreview from '@/components/HeroPreview'
 
 function MockUI({ rows = 3 }) {
   const widths = ['w-4/5', 'w-3/5', 'w-2/5', 'w-4/5', 'w-1/2']
@@ -51,68 +52,134 @@ export default function Home() {
   return (
     <div className='bg-black overflow-x-hidden'>
       {/* HERO */}
-      <section className='relative min-h-screen grid grid-cols-1 lg:grid-cols-5 px-4 sm:px-8 pt-28 sm:pt-32 pb-20 overflow-hidden'>
+      <section className='relative min-h-screen flex items-center overflow-hidden'>
+        {/* ─── Background layers ─── */}
         <StarsBackgroundDemo />
 
-        {/* LEFT */}
-        <div className='col-span-full lg:col-span-3 flex flex-col items-center justify-center text-center lg:-rotate-2'>
-          <Badge variant='gold' className='text-yellow-400'>
-            Powered by AI — Now in Beta
-          </Badge>
-          <h1 className='font-serif relative text-5xl sm:text-6xl lg:text-7xl tracking-tighter max-w-4xl'>
-            <GrayTitle>Ace your next interview</GrayTitle>
-            <br />
-            <GoldTitle>with real experts</GoldTitle>
-          </h1>
-          <p className='relative text-sm sm:text-base md:text-lg text-stone-400 max-w-xl mt-6 leading-relaxed'>
-            Book 1:1 mock interviews with senior engineers from top companies.
-            Get AI-powered feedback, role-specific questions, and the confidence
-            to land your dream job.
-          </p>
-          <div className='relative flex justify-center gap-2 sm:gap-4 mt-10 sm:w-auto'>
-            <Link href='/onboarding'>
-              <Button variant='gold' size='hero'>
-                Get started
-              </Button>
-            </Link>
+        {/* Gradient mesh */}
+        <div className='absolute inset-0 pointer-events-none'>
+          <div className='absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-amber-500/[0.07] blur-[140px]' />
+          <div className='absolute bottom-[-10%] right-[-5%] w-[45vw] h-[45vw] rounded-full bg-orange-600/[0.05] blur-[120px]' />
+          <div className='absolute top-[30%] right-[20%] w-[30vw] h-[30vw] rounded-full bg-amber-300/[0.04] blur-[100px]' />
+        </div>
 
-            <Link href='/explore'>
-              <Button variant='outline' size='hero'>
-                Browse Interviewers →
-              </Button>
-            </Link>
-          </div>
-          <div className='relative flex items-center justify-center gap-3 sm:gap-4 mt-8 sm:mt-16'>
-            <div className='flex'>
-              {AVATARS.map((av, i) => (
-                <div
-                  key={i}
-                  className={`w-8 h-8 rounded-full border-2 border-[#0a0a0b] overflow-hidden ${
-                    i > 0 ? '-ml-2' : ''
-                  }`}
-                >
-                  <Image
-                    src={av.src}
-                    alt='user avatar'
-                    width={32}
-                    height={32}
-                    className='w-full h-full object-cover'
-                  />
+        {/* Grid overlay */}
+        <div
+          className='absolute inset-0 opacity-[0.02] pointer-events-none'
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
+
+        {/* ─── Content ─── */}
+        <div className='relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-32'>
+          <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center'>
+            {/* ─── LEFT — 7 cols ─── */}
+            <div className='lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left'>
+              {/* Pill */}
+              <div className='animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both mb-8'>
+                <div className='inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.04] backdrop-blur-md border border-white/[0.08] shadow-[0_0_20px_-4px_rgba(251,191,36,0.1)]'>
+                  <span className='relative flex h-2 w-2'>
+                    <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
+                    <span className='relative inline-flex rounded-full h-2 w-2 bg-amber-400' />
+                  </span>
+                  <span className='text-xs text-stone-300 font-medium'>
+                    Powered by AI — Now in Beta
+                  </span>
+                  <ArrowUpRight size={12} className='text-amber-400' />
                 </div>
-              ))}
+              </div>
+
+              {/* Headline — massive, staggered */}
+              <h1 className='font-serif text-[clamp(2.8rem,7vw,6.5rem)] tracking-[-0.04em] leading-[0.9] mb-8'>
+                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both bg-linear-to-br from-stone-100 via-stone-200 to-stone-500 bg-clip-text text-transparent'>
+                  Ace your next
+                </span>
+                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200 fill-mode-both bg-linear-to-br from-stone-100 via-stone-200 to-stone-500 bg-clip-text text-transparent'>
+                  interview
+                </span>
+                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both bg-linear-to-br from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent'>
+                  with real experts
+                </span>
+              </h1>
+
+              {/* Sub */}
+              <p className='text-sm sm:text-base md:text-lg text-stone-400 max-w-xl leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-5 duration-700 delay-[350ms] fill-mode-both'>
+                Book 1:1 mock interviews with senior engineers from top
+                companies. Get AI-powered feedback, role-specific questions, and
+                the confidence to land your dream job.
+              </p>
+
+              {/* CTAs */}
+              <div className='flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-12 animate-in fade-in slide-in-from-bottom-5 duration-700 delay-[450ms] fill-mode-both'>
+                <Link href='/onboarding'>
+                  <Button variant='gold' size='hero'>
+                    Get started free
+                  </Button>
+                </Link>
+                <Link href='/explore'>
+                  <Button variant='outline' size='hero'>
+                    Browse Interviewers →
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Social proof — horizontal bar */}
+              <div className='animate-in fade-in slide-in-from-bottom-5 duration-700 delay-[550ms] fill-mode-both'>
+                <div className='inline-flex items-center gap-5 px-5 py-3 rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06]'>
+                  <div className='flex'>
+                    {AVATARS.map((av, i) => (
+                      <div
+                        key={i}
+                        className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden ${
+                          i > 0 ? '-ml-2.5' : ''
+                        }`}
+                      >
+                        <Image
+                          src={av.src}
+                          alt='user'
+                          width={32}
+                          height={32}
+                          className='w-full h-full object-cover'
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className='w-px h-8 bg-white/10' />
+                  <div className='flex flex-col'>
+                    <span className='text-sm font-medium text-stone-200'>
+                      2,400+ engineers
+                    </span>
+                    <span className='text-[11px] text-stone-500'>
+                      cracked FAANG via Prept
+                    </span>
+                  </div>
+                  <div className='w-px h-8 bg-white/10' />
+                  <div className='flex gap-0.5'>
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star
+                        key={i}
+                        size={12}
+                        className='text-amber-400'
+                        fill='currentColor'
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <p className='text-sm text-stone-500 text-center sm:text-left'>
-              <strong className='text-stone-400 font-medium'>
-                2,400+ engineers
-              </strong>{' '}
-              cracked FAANG interviews via Prept
-            </p>
+            {/* ─── RIGHT — 5 cols, layered visual ─── */}
+            <div className='lg:col-span-5 animate-in fade-in slide-in-from-right-12 duration-1000 delay-300 fill-mode-both'>
+              <HeroPreview />
+            </div>
           </div>
         </div>
-        <div className='col-span-full lg:col-span-2 flex items-center justify-center lg:justify-start mt-12 lg:mt-0 lg:rotate-3'>
-          <CodeDemo duration={30000} writing />
-        </div>
+
+        {/* Bottom fade into next section */}
+        <div className='absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none' />
       </section>
 
       {/* LOGOS */}
