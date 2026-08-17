@@ -15,6 +15,7 @@ import { Bot, Wallet } from 'lucide-react'
 import BentoCard from '@/components/BentoCard'
 import PricingSection from '@/components/PricingSection'
 import FaqAccordion from '@/components/FaqAccordion'
+import HowItWorks from '@/components/HowItWorks'
 
 function MockUI({ rows = 3 }) {
   const widths = ['w-4/5', 'w-3/5', 'w-2/5', 'w-4/5', 'w-1/2']
@@ -137,7 +138,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+      {/* How it works */}
+      <HowItWorks />
+
       {/* FEATURES BENTO GRID */}
       <section className='relative z-10 py-28 max-w-5xl mx-auto px-6'>
         <div className='text-center mb-16'>
