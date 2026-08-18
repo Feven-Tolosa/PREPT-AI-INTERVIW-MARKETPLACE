@@ -50,7 +50,7 @@ export default function AvailabilitySection({ initial }) {
   };
 
   return (
-    <section className="bg-[#0f0f11] border border-white/10 rounded-2xl p-8 flex flex-col gap-7">
+    <section className="bg-card border border-border rounded-2xl p-8 flex flex-col gap-7">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -60,7 +60,7 @@ export default function AvailabilitySection({ initial }) {
           <h2 className="font-serif text-xl tracking-tight">
             <GrayTitle>Daily Availability Window</GrayTitle>
           </h2>
-          <p className="text-xs text-stone-500 font-light mt-1">
+          <p className="text-xs text-muted-foreground font-light mt-1">
             Set one recurring daily window. You&apos;ll automatically be
             considered available every day during these hours — no need to add
             dates.
@@ -72,26 +72,26 @@ export default function AvailabilitySection({ initial }) {
           className={`shrink-0 ${
             isActive
               ? "border-green-500/20 bg-green-500/10 text-green-400"
-              : "border-stone-500/20 bg-stone-500/10 text-stone-400"
+              : "border-stone-500/20 bg-stone-500/10 text-muted-foreground"
           }`}
         >
           {isActive ? "Active" : "Inactive"}
         </Badge>
       </div>
 
-      <div className="h-px bg-white/5" />
+      <div className="h-px bg-muted/50" />
 
       {/* Status toggle */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <span className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-            <Power size={15} className="text-stone-400" />
+          <span className="w-9 h-9 rounded-xl bg-muted/50 border border-border flex items-center justify-center">
+            <Power size={15} className="text-muted-foreground" />
           </span>
           <div>
-            <Label className="text-stone-300 text-xs font-semibold uppercase tracking-wider">
+            <Label className="text-foreground text-xs font-semibold uppercase tracking-wider">
               Status
             </Label>
-            <p className="text-xs text-stone-600 font-light mt-0.5">
+            <p className="text-xs text-muted-foreground/70 font-light mt-0.5">
               Turn bookings on or off without deleting your window.
             </p>
           </div>
@@ -108,37 +108,37 @@ export default function AvailabilitySection({ initial }) {
           }`}
         >
           <span
-            className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-200 ${
+            className={`absolute top-1 w-6 h-6 rounded-full bg-foreground transition-all duration-200 ${
               isActive ? "left-7" : "left-1"
             }`}
           />
         </button>
       </div>
 
-      <div className="h-px bg-white/5" />
+      <div className="h-px bg-muted/50" />
 
       {/* Time inputs */}
       <div className="flex flex-col gap-3">
-        <Label className="text-stone-300 text-xs font-semibold uppercase tracking-wider">
+        <Label className="text-foreground text-xs font-semibold uppercase tracking-wider">
           Available Time
         </Label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
-            <Label className="text-stone-400 text-xs">Start time</Label>
+            <Label className="text-muted-foreground text-xs">Start time</Label>
             <Input
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="bg-[#141417] border-white/10 text-stone-100"
+              className="bg-secondary border-border text-foreground"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label className="text-stone-400 text-xs">End time</Label>
+            <Label className="text-muted-foreground text-xs">End time</Label>
             <Input
               type="time"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              className="bg-[#141417] border-white/10 text-stone-100"
+              className="bg-secondary border-border text-foreground"
             />
           </div>
         </div>
@@ -159,14 +159,14 @@ export default function AvailabilitySection({ initial }) {
           >
             Window Duration: {duration}
           </Badge>
-          <span className="text-xs text-stone-400 font-light">
+          <span className="text-xs text-muted-foreground font-light">
             Interviewees can book any day during this recurring window.
           </span>
         </div>
       )}
 
       {/* Daily Availability Summary Card */}
-      <div className="bg-[#141417] border border-white/10 rounded-xl p-5 flex items-center justify-between gap-4">
+      <div className="bg-secondary border border-border rounded-xl p-5 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span
             className={`w-2.5 h-2.5 rounded-full shrink-0 ${
@@ -174,11 +174,11 @@ export default function AvailabilitySection({ initial }) {
             }`}
           />
           <div className="flex flex-col gap-0.5">
-            <p className="text-xs font-semibold text-stone-300">
+            <p className="text-xs font-semibold text-foreground">
               Available every day
             </p>
             {hasWindow && isTimeValid ? (
-              <p className="text-[11px] text-stone-500 font-light">
+              <p className="text-[11px] text-muted-foreground font-light">
                 From{" "}
                 <span className="text-amber-400 font-mono font-medium">
                   {formatTimeOfDay(startTime)}
@@ -189,7 +189,7 @@ export default function AvailabilitySection({ initial }) {
                 </span>
               </p>
             ) : (
-              <p className="text-[11px] text-stone-600 font-light">
+              <p className="text-[11px] text-muted-foreground/70 font-light">
                 Set a time window to start accepting bookings.
               </p>
             )}
@@ -199,7 +199,7 @@ export default function AvailabilitySection({ initial }) {
         {!isActive && hasWindow && isTimeValid && (
           <Badge
             variant="outline"
-            className="shrink-0 border-stone-500/20 bg-stone-500/10 text-stone-400"
+            className="shrink-0 border-stone-500/20 bg-stone-500/10 text-muted-foreground"
           >
             Paused
           </Badge>

@@ -11,22 +11,22 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 bg-[#08080a] border-t border-white/10 text-stone-300 pt-16 pb-12 overflow-hidden">
+    <footer className="relative z-10 bg-background border-t border-border text-foreground pt-16 pb-12 overflow-hidden">
       {/* Subtle Background Glow */}
       <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-96 bg-[radial-gradient(ellipse_at_bottom,rgba(251,191,36,0.06)_0%,transparent_70%)]" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 relative">
         {/* TOP SECTION: Callout Banner */}
-        <div className="rounded-2xl bg-gradient-to-r from-[#121216] via-[#16161c] to-[#121216] border border-white/10 p-8 mb-16 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="rounded-2xl bg-gradient-to-r from-muted via-card to-muted border border-border p-8 mb-16 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shrink-0">
               <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-serif text-xl text-stone-100 tracking-tight">
+              <h3 className="font-serif text-xl text-foreground tracking-tight">
                 Ready to crack your dream tech role?
               </h3>
-              <p className="text-xs text-stone-400 font-light mt-0.5">
+              <p className="text-xs text-muted-foreground font-light mt-0.5">
                 Join 2,400+ engineers practicing with senior interviewers and AI co-pilots.
               </p>
             </div>
@@ -41,7 +41,7 @@ export default function Footer() {
         </div>
 
         {/* MAIN GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-16 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-16 border-b border-border">
           {/* COL 1: Brand & Status */}
           <div className="lg:col-span-2 flex flex-col gap-5">
             <Link href="/" className="flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function Footer() {
               </span>
             </Link>
 
-            <p className="text-xs text-stone-400 font-light leading-relaxed max-w-sm">
+            <p className="text-xs text-muted-foreground font-light leading-relaxed max-w-sm">
               The premier AI-powered 1:1 mock interview platform. Connect with elite technical interviewers from FAANG, practice with real-time AI co-pilots, and get automated transcript evaluation.
             </p>
 
@@ -65,7 +65,7 @@ export default function Footer() {
             </div>
 
             {/* Security Badge */}
-            <div className="flex items-center gap-2 text-xs text-stone-500 mt-1">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
               <ShieldCheck className="w-4 h-4 text-amber-400/80" />
               <span>Protected by Arcjet &amp; Stream Encrypted Video</span>
             </div>
@@ -76,7 +76,7 @@ export default function Footer() {
             <p className="text-xs font-semibold text-amber-400 uppercase tracking-widest">
               Platform
             </p>
-            <ul className="flex flex-col gap-2.5 text-xs text-stone-400">
+            <ul className="flex flex-col gap-2.5 text-xs text-muted-foreground">
               <li>
                 <Link href="/explore" className="hover:text-amber-300 transition-colors">
                   Browse Interviewers
@@ -105,7 +105,7 @@ export default function Footer() {
             <p className="text-xs font-semibold text-amber-400 uppercase tracking-widest">
               Categories
             </p>
-            <ul className="flex flex-col gap-2.5 text-xs text-stone-400">
+            <ul className="flex flex-col gap-2.5 text-xs text-muted-foreground">
               <li>
                 <Link href="/explore?category=FRONTEND" className="hover:text-amber-300 transition-colors">
                   Frontend Engineering
@@ -139,23 +139,23 @@ export default function Footer() {
         </div>
 
         {/* BOTTOM SECTION */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-light">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground font-light">
           <div className="flex items-center gap-2">
             <span>© {new Date().getFullYear()} PREPT. Built with Next.js, Supabase, Stream &amp; Gemini AI.</span>
           </div>
 
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-stone-300 transition-colors">
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-stone-300 transition-colors">
+            <Link href="/terms" className="hover:text-foreground transition-colors">
               Terms of Service
             </Link>
-            <span className="hover:text-stone-300 transition-colors cursor-pointer">Cookie Settings</span>
+            <span className="hover:text-foreground transition-colors cursor-pointer">Cookie Settings</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-stone-400 font-medium">Crafted with ❤️ by <strong className="text-amber-400">DaveOnTrack</strong></span>
+            <span className="text-muted-foreground font-medium">Crafted with ❤️ by <strong className="text-amber-400">DaveOnTrack</strong></span>
           </div>
         </div>
       </div>

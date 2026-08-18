@@ -71,7 +71,7 @@ export default function HowItWorks() {
               <div className='absolute top-0 w-16 h-16 rounded-full bg-amber-400/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
 
               {/* Icon circle */}
-              <div className='relative w-12 h-12 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-amber-400 mb-6 ring-1 ring-white/5 group-hover:border-amber-400/30 group-hover:ring-amber-400/20 transition-all duration-300'>
+              <div className='relative w-12 h-12 rounded-full bg-muted/50 backdrop-blur-md border border-border flex items-center justify-center text-amber-400 mb-6 ring-1 ring-border/50 group-hover:border-amber-400/30 group-hover:ring-amber-400/20 transition-all duration-300'>
                 {step.icon}
               </div>
 
@@ -86,7 +86,7 @@ export default function HowItWorks() {
               </h3>
 
               {/* Description */}
-              <p className='text-sm text-stone-400 leading-relaxed max-w-55'>
+              <p className='text-sm text-muted-foreground leading-relaxed max-w-55'>
                 {step.desc}
               </p>
             </div>

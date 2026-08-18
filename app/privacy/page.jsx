@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#08080a] text-stone-300">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-4xl mx-auto px-6 py-20">
         {/* Header */}
         <div className="mb-16 text-center">
@@ -15,10 +15,10 @@ export default function PrivacyPolicyPage() {
             <ShieldCheck className="w-3.5 h-3.5" />
             Legal Document
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl text-stone-100 tracking-tight mb-4">
+          <h1 className="font-serif text-4xl md:text-5xl text-foreground tracking-tight mb-4">
             Privacy Policy
           </h1>
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-muted-foreground">
             Last updated: {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
           </p>
         </div>
@@ -31,35 +31,35 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Eye className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">1. Information We Collect</h2>
+              <h2 className="font-serif text-xl text-foreground">1. Information We Collect</h2>
             </div>
-            <p className="text-stone-400">
+            <p className="text-muted-foreground">
               When you use PREPT, we collect information to provide, maintain, and improve our mock interview marketplace and AI services:
             </p>
             <ul className="list-none space-y-3 pl-4">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Account &amp; Profile Information:</strong> Name, email address (via Clerk authentication), profile picture, role selection (Candidate or Interviewer), professional bio, and expertise details.</span>
+                <span><strong className="text-foreground">Account &amp; Profile Information:</strong> Name, email address (via Clerk authentication), profile picture, role selection (Candidate or Interviewer), professional bio, and expertise details.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Interview Booking Details:</strong> Scheduled appointment dates, times, category selections, interviewer assignments, and booking status logs.</span>
+                <span><strong className="text-foreground">Interview Booking Details:</strong> Scheduled appointment dates, times, category selections, interviewer assignments, and booking status logs.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Interview Recordings &amp; Transcripts:</strong> Video call streams, audio feeds, live chat messages, and session transcripts processed through Stream video infrastructure.</span>
+                <span><strong className="text-foreground">Interview Recordings &amp; Transcripts:</strong> Video call streams, audio feeds, live chat messages, and session transcripts processed through Stream video infrastructure.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">AI-Generated Content:</strong> Custom interview questions, transcript summaries, evaluation metrics, scores, and performance feedback produced using Google Gemini AI.</span>
+                <span><strong className="text-foreground">AI-Generated Content:</strong> Custom interview questions, transcript summaries, evaluation metrics, scores, and performance feedback produced using Google Gemini AI.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Payment &amp; Payout Information:</strong> Credit purchase records, session credit deductions, interviewer credit earnings, and withdrawal payout logs. Payment transactions are processed securely; we do not store raw credit card numbers.</span>
+                <span><strong className="text-foreground">Payment &amp; Payout Information:</strong> Credit purchase records, session credit deductions, interviewer credit earnings, and withdrawal payout logs. Payment transactions are processed securely; we do not store raw credit card numbers.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Device &amp; Usage Data:</strong> IP address, browser type, operating system, page visits, feature interactions, and request timestamps collected for security and performance monitoring.</span>
+                <span><strong className="text-foreground">Device &amp; Usage Data:</strong> IP address, browser type, operating system, page visits, feature interactions, and request timestamps collected for security and performance monitoring.</span>
               </li>
             </ul>
           </section>
@@ -70,9 +70,9 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Server className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">2. How Information Is Used</h2>
+              <h2 className="font-serif text-xl text-foreground">2. How Information Is Used</h2>
             </div>
-            <p className="text-stone-400">We use the collected information for the following specific operational purposes:</p>
+            <p className="text-muted-foreground">We use the collected information for the following specific operational purposes:</p>
             <ul className="list-none space-y-3 pl-4">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
@@ -107,9 +107,9 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Users className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">3. Third-Party Services</h2>
+              <h2 className="font-serif text-xl text-foreground">3. Third-Party Services</h2>
             </div>
-            <p className="text-stone-400">
+            <p className="text-muted-foreground">
               PREPT integrates with trusted third-party providers to power essential infrastructure. These services process data according to their own privacy policies:
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
@@ -121,13 +121,13 @@ export default function PrivacyPolicyPage() {
                 { name: "Supabase / PostgreSQL / Prisma", purpose: "Database hosting, data persistence & ORM mapping" },
                 { name: "Arcjet", purpose: "Application security, rate limiting & bot prevention" },
               ].map((service) => (
-                <div key={service.name} className="rounded-lg bg-white/[0.03] border border-white/10 px-4 py-3">
-                  <p className="text-stone-200 font-medium text-xs">{service.name}</p>
-                  <p className="text-stone-500 text-xs mt-0.5">{service.purpose}</p>
+                <div key={service.name} className="rounded-lg bg-muted/30 border border-border px-4 py-3">
+                  <p className="text-foreground font-medium text-xs">{service.name}</p>
+                  <p className="text-muted-foreground text-xs mt-0.5">{service.purpose}</p>
                 </div>
               ))}
             </div>
-            <p className="text-stone-400 mt-4 text-xs">
+            <p className="text-muted-foreground mt-4 text-xs">
               Each vendor maintains independent privacy standards. We encourage you to review their respective privacy statements.
             </p>
           </section>
@@ -138,9 +138,9 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Lock className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">4. Data Security</h2>
+              <h2 className="font-serif text-xl text-foreground">4. Data Security</h2>
             </div>
-            <p className="text-stone-400">
+            <p className="text-muted-foreground">
               We employ reasonable technical and organizational measures to safeguard user information:
             </p>
             <ul className="list-none space-y-3 pl-4">
@@ -161,7 +161,7 @@ export default function PrivacyPolicyPage() {
                 <span>Arcjet continuously screens network traffic to defend against unauthorized access and brute-force attacks.</span>
               </li>
             </ul>
-            <p className="text-stone-500 text-xs mt-2 italic">
+            <p className="text-muted-foreground text-xs mt-2 italic">
               While we utilize rigorous protection standards, please note that no internet-based service can guarantee 100% absolute security.
             </p>
           </section>
@@ -172,23 +172,23 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Clock className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">5. Data Retention</h2>
+              <h2 className="font-serif text-xl text-foreground">5. Data Retention</h2>
             </div>
-            <p className="text-stone-400">
+            <p className="text-muted-foreground">
               We retain user information for as long as necessary to provide service features and fulfill accounting requirements:
             </p>
             <ul className="list-none space-y-3 pl-4">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Account Profiles:</strong> Maintained while your account remains active on PREPT.</span>
+                <span><strong className="text-foreground">Account Profiles:</strong> Maintained while your account remains active on PREPT.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Interview Records &amp; Feedback:</strong> Session logs, AI evaluation scores, and transcripts are stored so candidates can review their progress until account deletion.</span>
+                <span><strong className="text-foreground">Interview Records &amp; Feedback:</strong> Session logs, AI evaluation scores, and transcripts are stored so candidates can review their progress until account deletion.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Transaction &amp; Payout Records:</strong> Credit purchase logs and interviewer payout histories are retained as required by financial regulations.</span>
+                <span><strong className="text-foreground">Transaction &amp; Payout Records:</strong> Credit purchase logs and interviewer payout histories are retained as required by financial regulations.</span>
               </li>
             </ul>
           </section>
@@ -199,25 +199,25 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <FileCheck className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">6. User Rights</h2>
+              <h2 className="font-serif text-xl text-foreground">6. User Rights</h2>
             </div>
-            <p className="text-stone-400">As a user, you maintain rights regarding your data:</p>
+            <p className="text-muted-foreground">As a user, you maintain rights regarding your data:</p>
             <ul className="list-none space-y-3 pl-4">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">View Information:</strong> Inspect your profile details, booking history, credit balance, and AI feedback reports at any time.</span>
+                <span><strong className="text-foreground">View Information:</strong> Inspect your profile details, booking history, credit balance, and AI feedback reports at any time.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Update Profile:</strong> Edit your profile details, availability, rates, and bio directly in your dashboard settings.</span>
+                <span><strong className="text-foreground">Update Profile:</strong> Edit your profile details, availability, rates, and bio directly in your dashboard settings.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Request Account Deletion:</strong> Request account closure and erasure of personal data by contacting support.</span>
+                <span><strong className="text-foreground">Request Account Deletion:</strong> Request account closure and erasure of personal data by contacting support.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Privacy Support:</strong> Contact our team for assistance with privacy questions or data handling concerns.</span>
+                <span><strong className="text-foreground">Privacy Support:</strong> Contact our team for assistance with privacy questions or data handling concerns.</span>
               </li>
             </ul>
           </section>
@@ -228,19 +228,19 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Cookie className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">7. Cookies &amp; Tracking Technologies</h2>
+              <h2 className="font-serif text-xl text-foreground">7. Cookies &amp; Tracking Technologies</h2>
             </div>
-            <p className="text-stone-400">
+            <p className="text-muted-foreground">
               PREPT uses essential cookies and local storage to keep your session secure and remember interface preferences:
             </p>
             <ul className="list-none space-y-3 pl-4">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Authentication Cookies:</strong> Managed by Clerk to authenticate your browser session across page reloads.</span>
+                <span><strong className="text-foreground">Authentication Cookies:</strong> Managed by Clerk to authenticate your browser session across page reloads.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                <span><strong className="text-stone-200">Preference Storage:</strong> Used to store UI preferences such as theme settings (dark mode).</span>
+                <span><strong className="text-foreground">Preference Storage:</strong> Used to store UI preferences such as theme settings (dark mode).</span>
               </li>
             </ul>
           </section>
@@ -251,13 +251,13 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-400/10 flex items-center justify-center">
                 <Mail className="w-4 h-4 text-amber-400" />
               </div>
-              <h2 className="font-serif text-xl text-stone-100">8. Contact Us</h2>
+              <h2 className="font-serif text-xl text-foreground">8. Contact Us</h2>
             </div>
-            <p className="text-stone-400">
+            <p className="text-muted-foreground">
               For questions, privacy inquiries, or data protection requests regarding this Privacy Policy, please reach out to us:
             </p>
             <div className="mt-6 rounded-xl bg-amber-400/5 border border-amber-400/20 p-5">
-              <p className="text-stone-300 text-sm">
+              <p className=" text-foreground text-sm">
                 Privacy Support Email:{" "}
                 <a href="mailto:dawitberiso406@gmail.com" className="text-amber-400 hover:text-amber-300 underline underline-offset-2 font-medium">
                   dawitberiso406@gmail.com

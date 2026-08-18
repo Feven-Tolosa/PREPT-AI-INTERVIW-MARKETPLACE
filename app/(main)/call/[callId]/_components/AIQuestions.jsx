@@ -33,7 +33,7 @@ export default function AIQuestionsPanel({ categories }) {
             className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${
               selectedCategory === cat
                 ? "border-amber-400/40 bg-amber-400/10 text-amber-400"
-                : "border-white/10 text-stone-500 hover:border-white/20 hover:text-stone-400"
+                : "border-border text-muted-foreground hover:border-border hover:text-muted-foreground"
             }`}
           >
             {CATEGORY_LABEL[cat] ?? cat}
@@ -71,13 +71,13 @@ export default function AIQuestionsPanel({ categories }) {
           {questions.map((q, i) => (
             <div
               key={i}
-              className="rounded-xl border border-white/8 bg-[#141417] p-4 flex flex-col gap-2"
+              className="rounded-xl border border-border bg-secondary p-4 flex flex-col gap-2"
             >
-              <p className="text-sm text-stone-200 font-medium leading-snug">
+              <p className="text-sm text-foreground font-medium leading-snug">
                 {i + 1}. {q.question}
               </p>
-              <div className="h-px bg-white/5" />
-              <p className="text-xs text-stone-500 font-light leading-relaxed">
+              <div className="h-px bg-muted/50" />
+              <p className="text-xs text-muted-foreground font-light leading-relaxed">
                 <span className="text-amber-400/70 font-medium">Answer: </span>
                 {q.answer}
               </p>
@@ -89,7 +89,7 @@ export default function AIQuestionsPanel({ categories }) {
           <span className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center">
             <Sparkles size={16} className="text-amber-400" />
           </span>
-          <p className="text-xs text-stone-600">
+          <p className="text-xs text-muted-foreground/70">
             Select a category and generate role-specific questions for this
             session.
           </p>

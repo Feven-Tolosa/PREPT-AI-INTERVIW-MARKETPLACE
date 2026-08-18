@@ -6,7 +6,7 @@ export default async function ExplorePage() {
   const interviewers = await getInterviewers();
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-background">
       {/* Page header */}
       <PageHeader
         label="Explore"

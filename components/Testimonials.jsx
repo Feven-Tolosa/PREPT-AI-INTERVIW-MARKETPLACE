@@ -87,7 +87,7 @@ export default function Testimonials() {
           className={`absolute -inset-8 ${c.glow} rounded-full blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}
         />
 
-        <div className="relative rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-2xl overflow-hidden shadow-[0_8px_40px_-12px_rgba(0,0,0,0.5)]">
+        <div className="relative rounded-2xl border border-border/80 bg-muted/30 backdrop-blur-2xl overflow-hidden shadow-[0_8px_40px_-12px_rgba(0,0,0,0.5)]">
           {/* Top accent line */}
           <div
             className={`h-px bg-gradient-to-r from-transparent ${c.text} to-transparent opacity-30`}
@@ -102,7 +102,7 @@ export default function Testimonials() {
             </div>
 
             {/* Quote text */}
-            <p className="font-serif text-xl sm:text-2xl lg:text-[1.7rem] leading-relaxed tracking-tight text-stone-200 mb-10 max-w-3xl">
+            <p className="font-serif text-xl sm:text-2xl lg:text-[1.7rem] leading-relaxed tracking-tight text-foreground mb-10 max-w-3xl">
               &ldquo;{t.text}&rdquo;
             </p>
 
@@ -115,10 +115,10 @@ export default function Testimonials() {
                   {t.initials}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-stone-200">
+                  <p className="text-sm font-medium text-foreground">
                     {t.name}
                   </p>
-                  <p className="text-xs text-stone-500">{t.role}</p>
+                  <p className="text-xs text-muted-foreground">{t.role}</p>
                 </div>
               </div>
 
@@ -149,7 +149,7 @@ export default function Testimonials() {
               className={`h-1.5 rounded-full transition-all duration-400 cursor-pointer ${
                 i === activeIdx
                   ? "w-8 bg-amber-400"
-                  : "w-1.5 bg-white/15 hover:bg-white/25"
+                  : "w-1.5 bg-muted hover:bg-accent"
               }`}
             />
           ))}
@@ -159,13 +159,13 @@ export default function Testimonials() {
         <div className="flex items-center gap-2">
           <button
             onClick={prev}
-            className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-stone-300 hover:bg-white/10 transition-all cursor-pointer"
+            className="w-8 h-8 rounded-full bg-muted/50 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/10 transition-all cursor-pointer"
           >
             <ChevronLeft size={14} />
           </button>
           <button
             onClick={next}
-            className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-stone-300 hover:bg-white/10 transition-all cursor-pointer"
+            className="w-8 h-8 rounded-full bg-muted/50 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/10 transition-all cursor-pointer"
           >
             <ChevronRight size={14} />
           </button>
@@ -181,7 +181,7 @@ export default function Testimonials() {
             return (
               <div
                 key={item.name}
-                className="rounded-xl bg-white/[0.02] border border-white/[0.06] p-5 hover:border-white/[0.12] transition-all duration-300 cursor-pointer"
+                className="rounded-xl bg-muted/20 border border-border/60 p-5 hover:border-border transition-all duration-300 cursor-pointer"
                 onClick={() => goTo(TESTIMONIALS.indexOf(item))}
               >
                 <div className="flex gap-0.5 mb-3">
@@ -194,7 +194,7 @@ export default function Testimonials() {
                     />
                   ))}
                 </div>
-                <p className="text-xs text-stone-400 leading-relaxed line-clamp-3 mb-4">
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3 mb-4">
                   &ldquo;{item.text}&rdquo;
                 </p>
                 <div className="flex items-center gap-2.5">
@@ -204,10 +204,10 @@ export default function Testimonials() {
                     {item.initials}
                   </div>
                   <div>
-                    <p className="text-[11px] text-stone-300 font-medium">
+                    <p className="text-[11px] text-foreground font-medium">
                       {item.name}
                     </p>
-                    <p className="text-[9px] text-stone-600">{item.role}</p>
+                    <p className="text-[9px] text-muted-foreground/70">{item.role}</p>
                   </div>
                 </div>
               </div>

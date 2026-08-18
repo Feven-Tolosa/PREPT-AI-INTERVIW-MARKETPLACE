@@ -26,7 +26,7 @@ export const SectionHeading = ({ gray, gold }) => (
 
 export default function PageHeader({ label, gray, gold, description, right }) {
   return (
-    <div className="border-b border-white/8 px-8 py-10">
+    <div className="border-b border-border px-8 py-10">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
         <div>
           {label && <SectionLabel>{label}</SectionLabel>}
@@ -35,7 +35,7 @@ export default function PageHeader({ label, gray, gold, description, right }) {
             {gold && <GoldTitle>{gold}</GoldTitle>}
           </h1>
           {description && (
-            <p className="text-sm text-stone-500 font-light mt-2">
+            <p className="text-sm text-muted-foreground font-light mt-2">
               {description}
             </p>
           )}

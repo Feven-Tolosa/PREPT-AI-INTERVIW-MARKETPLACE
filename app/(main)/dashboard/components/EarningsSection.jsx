@@ -91,7 +91,7 @@ export default function EarningsSection({ stats, history }) {
             value: stats?.totalEarned ?? 0,
             unit: "credits",
             gold: false,
-            icon: <TrendingUp size={16} className="text-stone-400" />,
+            icon: <TrendingUp size={16} className="text-muted-foreground" />,
             dollarValue: totalEarnedDollars,
           },
           {
@@ -99,12 +99,12 @@ export default function EarningsSection({ stats, history }) {
             value: stats?.completedSessions ?? 0,
             unit: "completed",
             gold: false,
-            icon: <CircleCheck size={16} className="text-stone-400" />,
+            icon: <CircleCheck size={16} className="text-muted-foreground" />,
           },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="bg-[#0f0f11] border border-white/10 rounded-2xl p-6 flex flex-col gap-2"
+            className="bg-card border border-border rounded-2xl p-6 flex flex-col gap-2"
           >
             <span className="text-lg">{stat.icon}</span>
             <p
@@ -116,9 +116,9 @@ export default function EarningsSection({ stats, history }) {
             >
               {stat.value}
             </p>
-            <p className="text-xs text-stone-600">{stat.unit}</p>
+            <p className="text-xs text-muted-foreground/70">{stat.unit}</p>
 
-            <p className="text-xs text-stone-500">
+            <p className="text-xs text-muted-foreground">
               {stat.label}{" "}
               {stat.dollarValue !== undefined
                 ? `($${stat?.dollarValue?.toFixed(2)})`
@@ -129,12 +129,12 @@ export default function EarningsSection({ stats, history }) {
       </div>
 
       {/* Withdrawal trigger card */}
-      <div className="bg-[#0f0f11] border border-white/10 rounded-2xl p-8 flex items-center justify-between gap-4">
+      <div className="bg-card border border-border rounded-2xl p-8 flex items-center justify-between gap-4">
         <div>
           <h2 className="font-serif text-xl tracking-tight">
             <GrayTitle>Withdraw earnings</GrayTitle>
           </h2>
-          <p className="text-xs text-stone-500 font-light mt-1">
+          <p className="text-xs text-muted-foreground font-light mt-1">
             20% platform fee applies. Processed within 2–3 business days.
           </p>
         </div>
@@ -150,21 +150,21 @@ export default function EarningsSection({ stats, history }) {
 
       {/* Withdrawal history */}
       {history?.length > 0 && (
-        <div className="bg-[#0f0f11] border border-white/10 rounded-2xl p-8 flex flex-col gap-5">
-          <p className="text-xs font-semibold text-stone-500 tracking-widest uppercase">
+        <div className="bg-card border border-border rounded-2xl p-8 flex flex-col gap-5">
+          <p className="text-xs font-semibold text-muted-foreground tracking-widest uppercase">
             Withdrawal history
           </p>
           <div className="flex flex-col gap-3">
             {history.map((p) => (
               <div
                 key={p.id}
-                className="flex items-center justify-between bg-[#141417] border border-white/8 rounded-xl px-5 py-4"
+                className="flex items-center justify-between bg-secondary border border-border rounded-xl px-5 py-4"
               >
                 <div className="flex flex-col gap-0.5">
-                  <p className="text-sm text-stone-300">
+                  <p className="text-sm text-foreground">
                     {p.credits} credits → ${p.netAmount.toFixed(2)}
                   </p>
-                  <p className="text-xs text-stone-600">
+                  <p className="text-xs text-muted-foreground/70">
                     {p.paymentMethod} · {formatDate(p.createdAt)}
                   </p>
                 </div>
@@ -186,7 +186,7 @@ export default function EarningsSection({ stats, history }) {
 
       {/* Dialog */}
       <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="bg-[#0f0f11] border border-white/10 text-stone-100 max-w-md">
+        <DialogContent className="bg-card border border-border text-foreground max-w-md">
           {done ? (
             <div className="py-8 text-center flex flex-col items-center gap-4">
               <span className="w-14 h-14 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center text-2xl">
@@ -195,7 +195,7 @@ export default function EarningsSection({ stats, history }) {
               <p className="font-serif text-xl">
                 <GrayTitle>Request submitted</GrayTitle>
               </p>
-              <p className="text-xs text-stone-500 font-light">
+              <p className="text-xs text-muted-foreground font-light">
                 We&apos;ll process your withdrawal within 2–3 business days.
               </p>
             </div>
@@ -205,36 +205,36 @@ export default function EarningsSection({ stats, history }) {
                 <DialogTitle className="font-serif text-xl tracking-tight">
                   <GrayTitle>Request withdrawal</GrayTitle>
                 </DialogTitle>
-                <DialogDescription className="text-stone-500 text-xs font-light">
+                <DialogDescription className="text-muted-foreground text-xs font-light">
                   Your full balance of{" "}
                   <span className="text-amber-400">{balance} credits</span> will
                   be withdrawn.
                 </DialogDescription>
               </DialogHeader>
 
-              <Separator className="bg-white/5" />
+              <Separator className="bg-muted/50" />
 
               <div className="flex flex-col gap-5 py-2">
                 {/* Fee breakdown */}
-                <div className="rounded-xl bg-[#141417] border border-white/8 p-4 flex flex-col gap-2">
-                  <div className="flex justify-between text-xs text-stone-500">
+                <div className="rounded-xl bg-secondary border border-border p-4 flex flex-col gap-2">
+                  <div className="flex justify-between text-xs text-muted-foreground">
                     <span>Balance (1 Cr = $5)</span>
                     <span className="text-green-400">${balance}</span>
                   </div>
-                  <div className="flex justify-between text-xs text-stone-500">
+                  <div className="flex justify-between text-xs text-muted-foreground">
                     <span>Platform fee (20%)</span>
                     <span className="text-red-400">− ${feeAmount}</span>
                   </div>
-                  <Separator className="bg-white/8 my-1" />
+                  <Separator className="bg-muted/80 my-1" />
                   <div className="flex justify-between text-sm font-medium">
-                    <span className="text-stone-300">You receive</span>
+                    <span className="text-foreground">You receive</span>
                     <span className="text-amber-400">${netAmount}</span>
                   </div>
                 </div>
 
                 {/* Payment method — Tabs */}
                 <div className="flex flex-col gap-2">
-                  <Label className="text-stone-400 text-xs">
+                  <Label className="text-muted-foreground text-xs">
                     Payment method
                   </Label>
                   <Tabs
@@ -244,7 +244,7 @@ export default function EarningsSection({ stats, history }) {
                       setDetail("");
                     }}
                   >
-                    <TabsList className="bg-[#141417] border border-white/10 w-full">
+                    <TabsList className="bg-secondary border border-border w-full">
                       {PAYMENT_METHODS.map((m) => (
                         <TabsTrigger
                           key={m.value}
@@ -260,14 +260,14 @@ export default function EarningsSection({ stats, history }) {
 
                 {/* Payment detail */}
                 <div className="flex flex-col gap-2">
-                  <Label className="text-stone-400 text-xs">
+                  <Label className="text-muted-foreground text-xs">
                     {selectedMethod?.label} details
                   </Label>
                   <Input
                     value={detail}
                     onChange={(e) => setDetail(e.target.value)}
                     placeholder={selectedMethod?.placeholder}
-                    className="bg-[#141417] border-white/10 text-stone-100"
+                    className="bg-secondary border-border text-foreground"
                   />
                 </div>
 

@@ -58,7 +58,7 @@ export default async function InterviewerDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-background">
       {/* Page header */}
       <PageHeader
         label="Interviewer dashboard"
@@ -71,7 +71,7 @@ export default async function InterviewerDashboardPage() {
         }
         right={
           <div>
-            <p className="text-xs text-stone-600">Credit balance</p>
+            <p className="text-xs text-muted-foreground/70">Credit balance</p>
             <p className="font-serif text-3xl leading-none bg-linear-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent text-right">
               {stats?.creditBalance ?? 0}
             </p>
@@ -82,7 +82,7 @@ export default async function InterviewerDashboardPage() {
       {/* Tabbed content */}
       <div className="max-w-6xl mx-auto px-8 py-10">
         <Tabs defaultValue="earnings">
-          <TabsList className="bg-[#0f0f11] border border-white/10 mb-8 w-full">
+          <TabsList className="bg-card border border-border mb-8 w-full">
             <TabsTrigger value="earnings" className="p-5">
               <Wallet size={16} className="text-amber-400" /> Earnings
             </TabsTrigger>

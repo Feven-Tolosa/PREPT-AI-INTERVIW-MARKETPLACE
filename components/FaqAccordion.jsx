@@ -10,8 +10,8 @@ function FaqItem({ question, answer, isOpen, onToggle }) {
     <div
       className={`group rounded-2xl border transition-all duration-300 overflow-hidden ${
         isOpen
-          ? 'bg-white/5 backdrop-blur-xl border-amber-400/20 shadow-[0_0_40px_-12px_rgba(251,191,36,0.15)]'
-          : 'bg-white/2 backdrop-blur-sm border-white/10 hover:border-white/20'
+          ? 'bg-muted/50 backdrop-blur-xl border-amber-400/20 shadow-[0_0_40px_-12px_rgba(251,191,36,0.15)]'
+          : 'bg-muted/20 backdrop-blur-sm border-border hover:border-border'
       }`}
     >
       <button
@@ -21,15 +21,15 @@ function FaqItem({ question, answer, isOpen, onToggle }) {
         <span
           className={`font-serif text-base tracking-tight transition-colors duration-200 ${
             isOpen
-              ? 'text-stone-100'
-              : 'text-stone-300 group-hover:text-stone-100'
+              ? 'text-foreground'
+              : 'text-foreground group-hover:text-foreground'
           }`}
         >
           {question}
         </span>
         <ChevronDown
           size={18}
-          className={`shrink-0 text-stone-500 transition-transform duration-300 ${
+          className={`shrink-0 text-muted-foreground transition-transform duration-300 ${
             isOpen ? 'rotate-180 text-amber-400' : ''
           }`}
         />
@@ -41,7 +41,7 @@ function FaqItem({ question, answer, isOpen, onToggle }) {
         }`}
       >
         <div className='overflow-hidden'>
-          <p className='px-7 pb-6 text-sm text-stone-400 leading-relaxed'>
+          <p className='px-7 pb-6 text-sm text-muted-foreground leading-relaxed'>
             {answer}
           </p>
         </div>

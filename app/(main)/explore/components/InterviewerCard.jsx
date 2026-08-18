@@ -23,25 +23,25 @@ export default function InterviewerCard({ interviewer }) {
   const availability = availabilities?.[0];
 
   return (
-    <Card className="relative border border-white/10 hover:border-amber-400/20">
+    <Card className="relative border border-border hover:border-amber-400/20">
       <div className="absolute inset-0 bg-linear-to-br from-amber-400/5 via-transparent to-transparent pointer-events-none" />
 
       <CardContent className="flex flex-col gap-5">
         {/* Top row — avatar + name + years */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Avatar className="w-11 h-11 border border-white/10 shrink-0">
+            <Avatar className="w-11 h-11 border border-border shrink-0">
               <AvatarImage src={imageUrl} alt={name} />
               <AvatarFallback className="bg-amber-400/10 border border-amber-400/20 text-amber-400 text-sm font-medium">
                 {name?.[0] ?? "?"}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium text-stone-200 leading-tight">
+              <p className="text-sm font-medium text-foreground leading-tight">
                 {name}
               </p>
               {title && company && (
-                <p className="text-xs text-stone-500 mt-0.5">
+                <p className="text-xs text-muted-foreground mt-0.5">
                   {title} · {company}
                 </p>
               )}
@@ -51,7 +51,7 @@ export default function InterviewerCard({ interviewer }) {
           {yearsExp && (
             <Badge
               variant="outline"
-              className="shrink-0 border-white/10 text-stone-500 text-xs"
+              className="shrink-0 border-border text-muted-foreground text-xs"
             >
               {yearsExp}+ yrs
             </Badge>
@@ -60,7 +60,7 @@ export default function InterviewerCard({ interviewer }) {
 
         {/* Bio */}
         {bio && (
-          <p className="text-xs text-stone-400 font-light leading-relaxed line-clamp-2">
+          <p className="text-xs text-muted-foreground font-light leading-relaxed line-clamp-2">
             {bio}
           </p>
         )}
@@ -77,7 +77,7 @@ export default function InterviewerCard({ interviewer }) {
               </span>
             ))}
             {categories.length > 4 && (
-              <span className="text-xs px-2.5 py-1 rounded-lg border border-white/10 text-stone-600">
+              <span className="text-xs px-2.5 py-1 rounded-lg border border-border text-muted-foreground/70">
                 +{categories.length - 4} more
               </span>
             )}
@@ -91,17 +91,17 @@ export default function InterviewerCard({ interviewer }) {
           <div className="flex flex-col gap-1">
             <p className="text-lg font-serif leading-none bg-linear-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent">
               {creditRate ?? 10}
-              <span className="text-xs text-stone-500 font-sans ml-1">
+              <span className="text-xs text-muted-foreground font-sans ml-1">
                 credits / session
               </span>
             </p>
             {availability ? (
-              <p className="text-xs text-stone-600">
+              <p className="text-xs text-muted-foreground/70">
                 🟢 Daily · {formatTimeOfDay(availability.startTime)} –{" "}
                 {formatTimeOfDay(availability.endTime)}
               </p>
             ) : (
-              <p className="text-xs text-stone-700">No availability set</p>
+              <p className="text-xs text-muted-foreground/50">No availability set</p>
             )}
           </div>
 

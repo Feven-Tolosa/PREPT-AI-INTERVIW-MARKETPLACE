@@ -41,7 +41,7 @@ export default async function MyAppointmentsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-background">
       {/* ── Page header ── */}
       <PageHeader
         label="My appointments"

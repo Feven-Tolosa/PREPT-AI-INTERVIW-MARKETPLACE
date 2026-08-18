@@ -32,8 +32,8 @@ export default function PricingSection() {
             key={plan.name}
             className={`relative rounded-2xl p-10 h-full flex flex-col transition-all duration-300 hover:-translate-y-1 ${
               plan.featured
-                ? "bg-[#141417] border border-amber-400/20"
-                : "bg-[#0f0f11] border border-white/10 hover:border-amber-400/10"
+                ? "bg-secondary border border-amber-400/20"
+                : "bg-card border border-border hover:border-amber-400/10"
             } ${isActive ? "ring-1 ring-amber-400/30" : ""}`}
           >
             {/* Most Popular badge */}
@@ -43,7 +43,7 @@ export default function PricingSection() {
               </span>
             )}
 
-            <p className="text-xs font-semibold text-stone-500 tracking-widest uppercase mb-5">
+            <p className="text-xs font-semibold text-muted-foreground tracking-widest uppercase mb-5">
               {plan.name}
             </p>
 
@@ -57,20 +57,20 @@ export default function PricingSection() {
               >
                 {plan.price}
               </span>
-              <span className="text-sm text-stone-500 font-light mb-1.5">
+              <span className="text-sm text-muted-foreground font-light mb-1.5">
                 /month
               </span>
             </div>
 
             <p className="text-sm text-amber-400 mb-7">{plan.credits}</p>
 
-            <div className="h-px bg-white/10 mb-7" />
+            <div className="h-px bg-accent mb-7" />
 
             <ul className="space-y-3 mb-9 flex-1">
               {plan.features.map((f) => (
                 <li
                   key={f}
-                  className="flex items-start gap-2.5 text-sm text-stone-400"
+                  className="flex items-start gap-2.5 text-sm text-muted-foreground"
                 >
                   <span className="text-amber-400 text-xs mt-0.5">✓</span>
                   {f}

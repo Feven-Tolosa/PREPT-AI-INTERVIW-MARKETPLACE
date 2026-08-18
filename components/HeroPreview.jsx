@@ -110,19 +110,19 @@ export default function HeroPreview() {
 
       {/* ─── Layer 1 (Back) — Stats panel, top-right ─── */}
       <div className="absolute top-0 right-0 w-40 sm:w-48 z-10">
-        <div className="rounded-2xl bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        <div className="rounded-2xl bg-muted/40 backdrop-blur-2xl border border-border/80 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center">
               <TrendingUp size={12} className="text-emerald-400" />
             </div>
-            <span className="text-[10px] text-stone-500 font-medium">
+            <span className="text-[10px] text-muted-foreground font-medium">
               Sessions
             </span>
           </div>
           <p className="font-serif text-2xl sm:text-3xl bg-linear-to-br from-stone-100 to-stone-400 bg-clip-text text-transparent leading-none mb-1">
             <AnimatedNumber value={2400} suffix="+" />
           </p>
-          <p className="text-[9px] text-stone-600">
+          <p className="text-[9px] text-muted-foreground/70">
             interviews completed
           </p>
         </div>
@@ -130,12 +130,12 @@ export default function HeroPreview() {
 
       {/* ─── Layer 1 (Back) — Credit card, bottom-left ─── */}
       <div className="absolute bottom-16 left-0 w-36 sm:w-44 z-10">
-        <div className="rounded-2xl bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        <div className="rounded-2xl bg-muted/40 backdrop-blur-2xl border border-border/80 p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg bg-amber-400/10 border border-amber-400/20 flex items-center justify-center">
               <Zap size={12} className="text-amber-400" />
             </div>
-            <span className="text-[10px] text-stone-500 font-medium">
+            <span className="text-[10px] text-muted-foreground font-medium">
               Credits
             </span>
           </div>
@@ -143,31 +143,31 @@ export default function HeroPreview() {
             28
           </p>
           <div className="flex items-center gap-1">
-            <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
+            <div className="flex-1 h-1 rounded-full bg-muted/50 overflow-hidden">
               <div className="h-full w-[70%] rounded-full bg-amber-400/50" />
             </div>
-            <span className="text-[8px] text-stone-600">70%</span>
+            <span className="text-[8px] text-muted-foreground/70">70%</span>
           </div>
         </div>
       </div>
 
       {/* ─── Layer 2 (Mid) — AI typing panel, top-left ─── */}
       <div className="absolute top-12 left-4 sm:left-8 w-56 sm:w-64 z-20">
-        <div className="rounded-2xl bg-white/[0.05] backdrop-blur-2xl border border-white/[0.08] p-4 shadow-[0_8px_40px_rgba(0,0,0,0.5)]">
+        <div className="rounded-2xl bg-muted/50 backdrop-blur-2xl border border-border/80 p-4 shadow-[0_8px_40px_rgba(0,0,0,0.5)]">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-6 h-6 rounded-full bg-amber-400/15 border border-amber-400/25 flex items-center justify-center">
               <Sparkles size={10} className="text-amber-400" />
             </div>
-            <span className="text-[10px] text-stone-300 font-medium">
+            <span className="text-[10px] text-foreground font-medium">
               AI Co-pilot
             </span>
             <span className="ml-auto flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[8px] text-stone-600">live</span>
+              <span className="text-[8px] text-muted-foreground/70">live</span>
             </span>
           </div>
-          <div className="rounded-xl bg-black/30 border border-white/5 p-3 mb-2">
-            <p className="text-[11px] text-stone-300 font-mono leading-relaxed min-h-[2.5em]">
+          <div className="rounded-xl bg-background/30 border border-border/50 p-3 mb-2">
+            <p className="text-[11px] text-foreground font-mono leading-relaxed min-h-[2.5em]">
               {typingText}
               <span className="inline-block w-[2px] h-3 bg-amber-400 ml-0.5 animate-pulse" />
             </p>
@@ -176,7 +176,7 @@ export default function HeroPreview() {
             {["Frontend", "L5", "System Design"].map((tag) => (
               <span
                 key={tag}
-                className="text-[8px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-stone-500"
+                className="text-[8px] px-2 py-0.5 rounded-full bg-muted/50 border border-border text-muted-foreground"
               >
                 {tag}
               </span>
@@ -187,31 +187,31 @@ export default function HeroPreview() {
 
       {/* ─── Layer 3 (Front) — Main video call card ─── */}
       <div className="absolute top-1/2 left-1/2 -translate-x-[44%] -translate-y-[44%] w-64 sm:w-80 z-30">
-        <div className="rounded-2xl bg-white/[0.06] backdrop-blur-2xl border border-white/[0.1] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.7),0_0_40px_-5px_rgba(251,191,36,0.1)] overflow-hidden">
+        <div className="rounded-2xl bg-muted/60 backdrop-blur-2xl border border-border shadow-[0_20px_60px_-10px_rgba(0,0,0,0.7),0_0_40px_-5px_rgba(251,191,36,0.1)] overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-border/60">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <span className="text-[10px] text-stone-400 font-mono">
+              <span className="text-[10px] text-muted-foreground font-mono">
                 12:34
               </span>
             </div>
-            <span className="text-[9px] text-stone-600">
+            <span className="text-[9px] text-muted-foreground/70">
               Frontend Mock Interview
             </span>
           </div>
 
           {/* Video grid */}
           <div className="grid grid-cols-2 gap-2 p-3">
-            <div className="rounded-xl bg-gradient-to-br from-[#16161c] to-[#1e1e28] border border-white/[0.06] aspect-video flex flex-col items-center justify-center relative overflow-hidden">
+            <div className="rounded-xl bg-gradient-to-br from-secondary to-secondary/80 border border-border/60 aspect-video flex flex-col items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 to-transparent" />
               <div className="relative w-10 h-10 rounded-full bg-amber-400/15 border border-amber-400/25 flex items-center justify-center text-amber-400 font-serif text-sm font-bold">
                 JD
               </div>
-              <p className="relative text-[10px] text-stone-300 mt-1.5 font-medium">
+              <p className="relative text-[10px] text-foreground mt-1.5 font-medium">
                 John Doe
               </p>
-              <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/40 backdrop-blur-sm">
+              <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-background/40 backdrop-blur-sm">
                 <Mic size={7} className="text-emerald-400" />
                 <div className="flex gap-[1px] items-end h-2">
                   {[1, 2, 3, 2].map((h, i) => (
@@ -227,29 +227,29 @@ export default function HeroPreview() {
                 </div>
               </div>
             </div>
-            <div className="rounded-xl bg-gradient-to-br from-[#16161c] to-[#1e1e28] border border-white/[0.06] aspect-video flex flex-col items-center justify-center relative overflow-hidden">
+            <div className="rounded-xl bg-gradient-to-br from-secondary to-secondary/80 border border-border/60 aspect-video flex flex-col items-center justify-center relative overflow-hidden">
               <div className="relative w-10 h-10 rounded-full bg-blue-400/15 border border-blue-400/25 flex items-center justify-center text-blue-400 font-serif text-sm font-bold">
                 YO
               </div>
-              <p className="relative text-[10px] text-stone-300 mt-1.5 font-medium">
+              <p className="relative text-[10px] text-foreground mt-1.5 font-medium">
                 You
               </p>
-              <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/40 backdrop-blur-sm">
-                <MicOff size={7} className="text-stone-500" />
-                <span className="text-[7px] text-stone-500">Muted</span>
+              <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-background/40 backdrop-blur-sm">
+                <MicOff size={7} className="text-muted-foreground" />
+                <span className="text-[7px] text-muted-foreground">Muted</span>
               </div>
             </div>
           </div>
 
           {/* Controls */}
-          <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-white/[0.06]">
-            <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-stone-400">
+          <div className="flex items-center justify-center gap-2 px-3 py-2 border-t border-border/60">
+            <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-muted-foreground">
               <Mic size={10} />
             </div>
-            <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-stone-400">
+            <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-muted-foreground">
               <MonitorUp size={10} />
             </div>
-            <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-stone-400">
+            <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-muted-foreground">
               <MessageSquare size={10} />
             </div>
             <div className="w-7 h-7 rounded-full bg-red-500/80 flex items-center justify-center text-white">
@@ -261,16 +261,16 @@ export default function HeroPreview() {
 
       {/* ─── Layer 4 (Front) — Feedback score card, bottom-right ─── */}
       <div className="absolute bottom-0 right-2 sm:right-6 w-44 sm:w-52 z-40">
-        <div className="rounded-2xl bg-white/[0.06] backdrop-blur-2xl border border-white/[0.1] p-4 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.6)]">
+        <div className="rounded-2xl bg-muted/60 backdrop-blur-2xl border border-border p-4 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.6)]">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center">
               <Sparkles size={10} className="text-amber-400" />
             </div>
             <div>
-              <p className="text-[10px] text-stone-300 font-medium">
+              <p className="text-[10px] text-foreground font-medium">
                 Session Score
               </p>
-              <p className="text-[8px] text-stone-600">AI-generated</p>
+              <p className="text-[8px] text-muted-foreground/70">AI-generated</p>
             </div>
             <span className="ml-auto font-serif text-lg bg-linear-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent font-bold">
               86
@@ -283,16 +283,16 @@ export default function HeroPreview() {
               { label: "Problem Solving", pct: 78, color: "bg-blue-400" },
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-2">
-                <span className="text-[8px] text-stone-500 w-14 shrink-0">
+                <span className="text-[8px] text-muted-foreground w-14 shrink-0">
                   {s.label}
                 </span>
-                <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
+                <div className="flex-1 h-1 rounded-full bg-muted/50 overflow-hidden">
                   <div
                     className={`h-full rounded-full ${s.color} opacity-70`}
                     style={{ width: `${s.pct}%` }}
                   />
                 </div>
-                <span className="text-[8px] text-stone-600 font-mono">
+                <span className="text-[8px] text-muted-foreground/70 font-mono">
                   {s.pct}
                 </span>
               </div>
@@ -303,11 +303,11 @@ export default function HeroPreview() {
 
       {/* ─── Layer 5 (Top) — Floating role badge ─── */}
       <div className="absolute top-1/2 right-0 -translate-y-8 z-50">
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] backdrop-blur-xl border border-white/[0.1] shadow-lg">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/60 backdrop-blur-xl border border-border shadow-lg">
           <div className="w-5 h-5 rounded-full bg-amber-400/15 border border-amber-400/20 flex items-center justify-center">
             <Users size={9} className="text-amber-400" />
           </div>
-          <span className="text-[9px] text-stone-300 font-medium">
+          <span className="text-[9px] text-foreground font-medium">
             500+ interviewers
           </span>
         </div>

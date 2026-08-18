@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import RoleRedirect from './RoleRedirect'
 import CreditButton from './CreditButton'
+import ThemeToggle from './ThemeToggle'
 import { CalendarDays, Users } from 'lucide-react'
 
 const Header = async () => {
@@ -17,7 +18,7 @@ const Header = async () => {
   )
 
   return (
-    <nav className='fixed top-0 inset-x-0 z-50 flex items-center justify-between px-3 sm:px-10 py-3 border-b border-white/7 backdrop-blur-xl'>
+    <nav className='fixed top-0 inset-x-0 z-50 flex items-center justify-between px-3 sm:px-10 py-3 bg-background/80 border-b border-border backdrop-blur-xl'>
       <Link href='/'>
         <Image
           src='/logo.png'
@@ -75,6 +76,8 @@ const Header = async () => {
 
           <UserButton />
         </Show>
+
+        <ThemeToggle />
       </div>
     </nav>
   )

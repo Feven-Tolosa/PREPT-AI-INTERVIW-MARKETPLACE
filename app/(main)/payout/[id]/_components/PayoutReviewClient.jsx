@@ -22,12 +22,12 @@ export default function PayoutReviewClient({ payout }) {
 
   if (done) {
     return (
-      <div className="bg-[#0f0f11] border border-white/10 rounded-2xl p-10 flex flex-col items-center gap-3 text-center">
+      <div className="bg-card border border-border rounded-2xl p-10 flex flex-col items-center gap-3 text-center">
         <span className="text-3xl">✅</span>
         <p className="font-serif text-xl">
           <GrayTitle>Withdrawal approved</GrayTitle>
         </p>
-        <p className="text-xs text-stone-500 font-light">
+        <p className="text-xs text-muted-foreground font-light">
           {payout.interviewerName} · ${payout.netAmount.toFixed(2)} via{" "}
           {payout.paymentMethod}
         </p>
@@ -36,37 +36,37 @@ export default function PayoutReviewClient({ payout }) {
   }
 
   return (
-    <div className="bg-[#0f0f11] border border-white/10 rounded-2xl p-8 flex flex-col gap-5">
+    <div className="bg-card border border-border rounded-2xl p-8 flex flex-col gap-5">
       {/* Payout summary */}
-      <div className="rounded-xl bg-[#141417] border border-white/8 p-4 flex flex-col gap-2">
+      <div className="rounded-xl bg-secondary border border-border p-4 flex flex-col gap-2">
         <div className="flex justify-between text-xs">
-          <span className="text-stone-500">Interviewer</span>
-          <span className="text-stone-300">{payout.interviewerName}</span>
+          <span className="text-muted-foreground">Interviewer</span>
+          <span className="text-foreground">{payout.interviewerName}</span>
         </div>
         <div className="flex justify-between text-xs">
-          <span className="text-stone-500">Email</span>
-          <span className="text-stone-300">{payout.interviewerEmail}</span>
+          <span className="text-muted-foreground">Email</span>
+          <span className="text-foreground">{payout.interviewerEmail}</span>
         </div>
         <div className="flex justify-between text-xs">
-          <span className="text-stone-500">Credits</span>
-          <span className="text-stone-300">{payout.credits}</span>
+          <span className="text-muted-foreground">Credits</span>
+          <span className="text-foreground">{payout.credits}</span>
         </div>
         <div className="flex justify-between text-xs">
-          <span className="text-stone-500">Platform fee (20%)</span>
+          <span className="text-muted-foreground">Platform fee (20%)</span>
           <span className="text-red-400">
             − ${payout.platformFee.toFixed(2)}
           </span>
         </div>
-        <Separator className="bg-white/8 my-1" />
+        <Separator className="bg-muted/80 my-1" />
         <div className="flex justify-between text-sm font-medium">
-          <span className="text-stone-300">Pay out</span>
+          <span className="text-foreground">Pay out</span>
           <span className="font-serif text-lg bg-linear-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent leading-none">
             ${payout.netAmount.toFixed(2)}
           </span>
         </div>
         <div className="flex justify-between text-xs pt-1">
-          <span className="text-stone-500">Send to</span>
-          <span className="text-stone-300">
+          <span className="text-muted-foreground">Send to</span>
+          <span className="text-foreground">
             {payout.paymentMethod} · {payout.paymentDetail}
           </span>
         </div>
@@ -74,7 +74,7 @@ export default function PayoutReviewClient({ payout }) {
 
       {/* Password */}
       <div className="flex flex-col gap-2">
-        <Label className="text-stone-400 text-xs">Admin password</Label>
+        <Label className="text-muted-foreground text-xs">Admin password</Label>
         <Input
           type="password"
           value={password}
@@ -85,7 +85,7 @@ export default function PayoutReviewClient({ payout }) {
             approveFn({ payoutId: payout.id, adminPassword: password })
           }
           placeholder="Enter password…"
-          className="bg-[#141417] border-white/10 text-stone-100"
+          className="bg-secondary border-border text-foreground"
         />
       </div>
 

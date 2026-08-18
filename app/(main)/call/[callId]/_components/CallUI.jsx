@@ -96,23 +96,23 @@ export default function CallUI({
 
   if (callingState === CallingState.LEFT) {
     return (
-      <div className="min-h-screen bg-[#0a0a0b] flex flex-col items-center justify-center gap-3">
-        <p className="text-stone-400 text-sm">Leaving call…</p>
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-3">
+        <p className="text-muted-foreground text-sm">Leaving call…</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[92vh] bg-[#0a0a0b] flex flex-col overflow-hidden">
+    <div className="min-h-[92vh] bg-background flex flex-col overflow-hidden">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-3 border-b border-white/8 shrink-0">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-border shrink-0">
         <div className="flex items-center gap-2">
           <Badge
             variant="outline"
-            className="border-white/10 text-stone-500 text-xs"
+            className="border-border text-muted-foreground text-xs"
           >
             {booking.interviewer.name}
-            <span className="text-stone-700 mx-1.5">×</span>
+            <span className="text-muted-foreground/50 mx-1.5">×</span>
             {booking.interviewee.name}
           </Badge>
           {isInterviewer && (
@@ -137,16 +137,16 @@ export default function CallUI({
         </div>
 
         {/* ── RIGHT: Chat / AI panel ── */}
-        <div className="w-85 shrink-0 flex flex-col border-l border-white/8 bg-[#0a0a0b]">
+        <div className="w-85 shrink-0 flex flex-col border-l border-border bg-background">
           {/* Tab switcher */}
-          <div className="flex border-b border-white/8 shrink-0">
+          <div className="flex border-b border-border shrink-0">
             <button
               type="button"
               onClick={() => setActiveTab("chat")}
               className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs font-medium transition-colors ${
                 activeTab === "chat"
                   ? "text-amber-400 border-b-2 border-amber-400"
-                  : "text-stone-500 hover:text-stone-300"
+                  : "text-muted-foreground hover:text-stone-300"
               }`}
             >
               <MessageSquare size={13} />
@@ -161,7 +161,7 @@ export default function CallUI({
                 className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs font-medium transition-colors ${
                   activeTab === "ai"
                     ? "text-amber-400 border-b-2 border-amber-400"
-                    : "text-stone-500 hover:text-stone-300"
+                    : "text-muted-foreground hover:text-stone-300"
                 }`}
               >
                 <Sparkles size={13} />

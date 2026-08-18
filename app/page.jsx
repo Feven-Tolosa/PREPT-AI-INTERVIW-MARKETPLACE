@@ -23,16 +23,16 @@ import HeroPreview from '@/components/HeroPreview'
 function MockUI({ rows = 3 }) {
   const widths = ['w-4/5', 'w-3/5', 'w-2/5', 'w-4/5', 'w-1/2']
   const colors = [
-    'bg-white/5',
-    'bg-white/5',
+    'bg-muted/50',
+    'bg-muted/50',
     'bg-amber-400/15',
-    'bg-white/5',
-    'bg-white/5',
+    'bg-muted/50',
+    'bg-muted/50',
   ]
 
   return (
-    <div className='mt-5 rounded-xl bg-white/3 backdrop-blur-md border border-white/10 overflow-hidden'>
-      <div className='h-9 bg-white/5 border-b border-white/10 flex items-center px-3.5 gap-1.5'>
+    <div className='mt-5 rounded-xl bg-muted/30 backdrop-blur-md border border-border overflow-hidden'>
+      <div className='h-9 bg-white/5 border-b border-border flex items-center px-3.5 gap-1.5'>
         <span className='w-2 h-2 rounded-full bg-[#ff5f57]' />
         <span className='w-2 h-2 rounded-full bg-[#ffbd2e]' />
         <span className='w-2 h-2 rounded-full bg-[#28c840]' />
@@ -51,7 +51,7 @@ function MockUI({ rows = 3 }) {
 
 export default function Home() {
   return (
-    <div className='bg-black overflow-x-hidden'>
+    <div className='bg-background overflow-x-hidden'>
       {/* HERO */}
       <section className='relative min-h-screen flex items-center overflow-hidden'>
         {/* ─── Background layers ─── */}
@@ -75,18 +75,18 @@ export default function Home() {
         />
 
         {/* ─── Content ─── */}
-        <div className='relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-32'>
+        <div className='relative z-10 w-full max-w-350 mx-auto px-6 sm:px-10 lg:px-16 py-24 sm:py-32'>
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center'>
             {/* ─── LEFT — 7 cols ─── */}
             <div className='lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left'>
               {/* Pill */}
               <div className='animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both mb-8'>
-                <div className='inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.04] backdrop-blur-md border border-white/[0.08] shadow-[0_0_20px_-4px_rgba(251,191,36,0.1)]'>
+                <div className='inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/4 backdrop-blur-md border border-border shadow-[0_0_20px_-4px_rgba(251,191,36,0.1)]'>
                   <span className='relative flex h-2 w-2'>
                     <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
                     <span className='relative inline-flex rounded-full h-2 w-2 bg-amber-400' />
                   </span>
-                  <span className='text-xs text-stone-300 font-medium'>
+                  <span className='text-xs text-foreground font-medium'>
                     Powered by AI — Now in Beta
                   </span>
                   <ArrowUpRight size={12} className='text-amber-400' />
@@ -94,20 +94,18 @@ export default function Home() {
               </div>
 
               {/* Headline — massive, staggered */}
-              <h1 className='font-serif text-[clamp(2.8rem,7vw,6.5rem)] tracking-[-0.04em] leading-[0.9] mb-8'>
-                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both bg-linear-to-br from-stone-100 via-stone-200 to-stone-500 bg-clip-text text-transparent'>
-                  Ace your next
+              <h1 className='font-serif text-[clamp(2.7rem,7vw,6.5rem)] tracking-[-0.04em] leading-[0.9] mb-8'>
+                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both bg-linear-to-br from-stone-200 via-stone-300 to-stone-500 bg-clip-text text-transparent pb-3'>
+                  Ace your next interview
                 </span>
-                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200 fill-mode-both bg-linear-to-br from-stone-100 via-stone-200 to-stone-500 bg-clip-text text-transparent'>
-                  interview
-                </span>
+                
                 <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both bg-linear-to-br from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent'>
                   with real experts
                 </span>
               </h1>
 
               {/* Sub */}
-              <p className='text-sm sm:text-base md:text-lg text-stone-400 max-w-xl leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-5 duration-700 delay-[350ms] fill-mode-both'>
+              <p className='text-sm sm:text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-5 duration-700 delay-[350ms] fill-mode-both'>
                 Book 1:1 mock interviews with senior engineers from top
                 companies. Get AI-powered feedback, role-specific questions, and
                 the confidence to land your dream job.
@@ -129,12 +127,12 @@ export default function Home() {
 
               {/* Social proof — horizontal bar */}
               <div className='animate-in fade-in slide-in-from-bottom-5 duration-700 delay-[550ms] fill-mode-both'>
-                <div className='inline-flex items-center gap-5 px-5 py-3 rounded-2xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.06]'>
+                <div className='inline-flex items-center gap-5 px-5 py-3 rounded-2xl bg-muted/30 backdrop-blur-sm border border-border/60'>
                   <div className='flex'>
                     {AVATARS.map((av, i) => (
                       <div
                         key={i}
-                        className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden ${
+                        className={`w-8 h-8 rounded-full border-2 border-background overflow-hidden ${
                           i > 0 ? '-ml-2.5' : ''
                         }`}
                       >
@@ -148,16 +146,16 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  <div className='w-px h-8 bg-white/10' />
+                  <div className='w-px h-8 bg-accent' />
                   <div className='flex flex-col'>
-                    <span className='text-sm font-medium text-stone-200'>
+                    <span className='text-sm font-medium text-foreground'>
                       2,400+ engineers
                     </span>
-                    <span className='text-[11px] text-stone-500'>
+                    <span className='text-[11px] text-muted-foreground'>
                       cracked FAANG via Prept
                     </span>
                   </div>
-                  <div className='w-px h-8 bg-white/10' />
+                  <div className='w-px h-8 bg-accent' />
                   <div className='flex gap-0.5'>
                     {[1, 2, 3, 4, 5].map((i) => (
                       <Star
@@ -180,18 +178,18 @@ export default function Home() {
         </div>
 
         {/* Bottom fade into next section */}
-        <div className='absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none' />
+        <div className='absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none' />
       </section>
 
       {/* LOGOS */}
-      <section className='relative z-10 border-y border-white/10 py-14 overflow-hidden'>
-        <p className='text-center text-xs font-medium text-stone-600 tracking-widest uppercase mb-8'>
+      <section className='relative z-10 border-y border-border py-14 overflow-hidden'>
+        <p className='text-center text-xs font-medium text-muted-foreground/70 tracking-widest uppercase mb-8'>
           Interviewees landed roles at
         </p>
 
         <div className='relative w-full overflow-hidden'>
-          <div className='pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-linear-to-r from-black to-transparent' />
-          <div className='pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-linear-to-l from-black to-transparent' />
+          <div className='pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-24 bg-linear-to-r from-background to-transparent' />
+          <div className='pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-24 bg-linear-to-l from-background to-transparent' />
 
           <div className='animate-marquee flex items-center gap-16'>
             {[...LOGOS, ...LOGOS, ...LOGOS, ...LOGOS].map((l, idx) => (
@@ -244,13 +242,13 @@ export default function Home() {
               title={<GrayTitle>Credit System</GrayTitle>}
               desc='Subscribe for monthly credits. Book sessions. Interviewers earn and withdraw any time.'
             >
-              <div className='mt-5 rounded-xl bg-white/3 backdrop-blur-md border border-white/10 p-5 flex justify-between items-end'>
+              <div className='mt-5 rounded-xl bg-muted/30 backdrop-blur-md border border-border p-5 flex justify-between items-end'>
                 <div>
-                  <p className='text-xs text-stone-600 mb-1'>Your balance</p>
+                  <p className='text-xs text-muted-foreground/70 mb-1'>Your balance</p>
                   <p className='font-serif text-4xl leading-none bg-linear-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent'>
                     28
                   </p>
-                  <p className='text-xs text-stone-600 mt-1'>
+                  <p className='text-xs text-muted-foreground/70 mt-1'>
                     credits remaining
                   </p>
                 </div>
@@ -326,7 +324,7 @@ export default function Home() {
           {ROLES.map((role) => (
             <div
               key={role.label}
-              className='relative group bg-white/3 backdrop-blur-xl border border-white/10 hover:border-amber-400/25 rounded-2xl p-12 h-full transition-all duration-300 overflow-hidden shadow-[0_4px_40px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_4px_60px_-12px_rgba(251,191,36,0.12)]'
+              className='relative group bg-muted/30 backdrop-blur-xl border border-border hover:border-amber-400/25 rounded-2xl p-12 h-full transition-all duration-300 overflow-hidden shadow-[0_4px_40px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_4px_60px_-12px_rgba(251,191,36,0.12)]'
             >
               <div className='absolute inset-0 bg-linear-to-br from-amber-400/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none' />
               <div className='absolute -bottom-24 -right-24 w-48 h-48 bg-amber-400/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none' />
@@ -339,13 +337,13 @@ export default function Home() {
                 {role.title}
               </h3>
 
-              <p className='relative text-sm text-stone-400 leading-relaxed mb-8'>
+              <p className='relative text-sm text-muted-foreground leading-relaxed mb-8'>
                 {role.desc}
               </p>
 
               <ul className='relative space-y-3'>
                 {role.perks.map((p) => (
-                  <li key={p} className='flex gap-3 text-sm text-stone-400'>
+                  <li key={p} className='flex gap-3 text-sm text-muted-foreground'>
                     <span className='mt-0.5 min-w-4 h-4 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-xs text-amber-400'>
                       ✓
                     </span>
@@ -366,7 +364,7 @@ export default function Home() {
             gray='Simple, transparent'
             gold='credit-based plans'
           />
-          <p className='text-stone-400 mt-3 text-sm'>
+          <p className='text-muted-foreground mt-3 text-sm'>
             Each credit = one session. Unused credits roll over.
           </p>
         </div>
@@ -378,9 +376,9 @@ export default function Home() {
 
       {/* FINAL CTA */}
       <section className='relative z-10 pb-28 max-w-5xl mx-auto px-6'>
-        <div className='relative rounded-3xl px-6 sm:px-16 py-24 overflow-hidden border border-white/[0.06]'>
+        <div className='relative rounded-3xl px-6 sm:px-16 py-24 overflow-hidden border border-border/60'>
           {/* Background layers */}
-          <div className='absolute inset-0 bg-white/[0.02] backdrop-blur-xl' />
+          <div className='absolute inset-0 bg-muted/20 backdrop-blur-xl' />
           <div className='absolute inset-0 bg-gradient-to-br from-amber-400/[0.08] via-transparent to-orange-500/[0.04]' />
           <div className='absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-amber-400/10 rounded-full blur-[120px] pointer-events-none' />
           <div className='absolute bottom-0 right-0 w-[300px] h-[300px] bg-orange-500/8 rounded-full blur-[100px] pointer-events-none' />
@@ -399,12 +397,12 @@ export default function Home() {
 
           <div className='relative z-10 text-center'>
             {/* Pill */}
-            <div className='inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] backdrop-blur-md border border-white/[0.08] mb-8'>
+            <div className='inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-muted/40 backdrop-blur-md border border-border/80 mb-8'>
               <span className='relative flex h-1.5 w-1.5'>
                 <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
                 <span className='relative inline-flex rounded-full h-1.5 w-1.5 bg-amber-400' />
               </span>
-              <span className='text-[11px] text-stone-400 font-medium'>
+              <span className='text-[11px] text-muted-foreground font-medium'>
                 Join 2,400+ engineers already on Prept
               </span>
             </div>
@@ -419,8 +417,10 @@ export default function Home() {
               </span>
             </h2>
 
-            <p className='text-stone-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed mb-10'>
-              Stop prepping alone. Practice with senior engineers, get AI-powered feedback, and walk into your next interview with confidence.
+            <p className='text-muted-foreground text-sm sm:text-base max-w-md mx-auto leading-relaxed mb-10'>
+              Stop prepping alone. Practice with senior engineers, get
+              AI-powered feedback, and walk into your next interview with
+              confidence.
             </p>
 
             <div className='flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4'>

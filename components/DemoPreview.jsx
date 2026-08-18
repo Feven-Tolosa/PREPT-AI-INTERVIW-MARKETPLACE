@@ -42,17 +42,17 @@ function VideoCallView({ active }) {
   return (
     <div className="w-full h-full flex flex-col">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-white/10">
+      <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-          <span className="text-xs sm:text-[11px] text-stone-400 font-mono">
+          <span className="text-xs sm:text-[11px] text-muted-foreground font-mono">
             {mm}:{ss}
           </span>
         </div>
-        <span className="text-xs sm:text-[11px] text-stone-500">
+        <span className="text-xs sm:text-[11px] text-muted-foreground">
           Frontend Interview
         </span>
-        <span className="text-xs sm:text-[11px] text-stone-500">
+        <span className="text-xs sm:text-[11px] text-muted-foreground">
           45:00 min
         </span>
       </div>
@@ -60,18 +60,18 @@ function VideoCallView({ active }) {
       {/* Video grid */}
       <div className="flex-1 grid grid-cols-2 gap-2 sm:gap-4 p-3 sm:p-6">
         {/* Interviewer */}
-        <div className="relative rounded-xl bg-gradient-to-br from-[#16161c] to-[#1a1a22] border border-white/10 flex flex-col items-center justify-center overflow-hidden">
+        <div className="relative rounded-xl bg-gradient-to-br from-secondary to-secondary/80 border border-border flex flex-col items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 to-transparent" />
           <div className="relative w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-amber-400/15 border border-amber-400/25 flex items-center justify-center text-amber-400 font-serif text-lg sm:text-2xl font-bold">
             JD
           </div>
-          <p className="relative text-[11px] sm:text-sm text-stone-300 mt-2 sm:mt-3 font-medium">
+          <p className="relative text-[11px] sm:text-sm text-foreground mt-2 sm:mt-3 font-medium">
             John Doe
           </p>
-          <p className="relative text-[9px] sm:text-[11px] text-stone-500">
+          <p className="relative text-[9px] sm:text-[11px] text-muted-foreground">
             Senior SWE · Google
           </p>
-          <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm">
+          <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 flex items-center gap-1.5 px-2 py-1 rounded-full bg-accent backdrop-blur-sm">
             <Mic size={10} className="text-emerald-400" />
             <div className="flex gap-[2px] items-end h-3">
               {[1, 2, 3, 2].map((h, i) => (
@@ -89,19 +89,19 @@ function VideoCallView({ active }) {
         </div>
 
         {/* Candidate (You) */}
-        <div className="relative rounded-xl bg-gradient-to-br from-[#16161c] to-[#1a1a22] border border-white/10 flex flex-col items-center justify-center overflow-hidden">
+        <div className="relative rounded-xl bg-gradient-to-br from-secondary to-secondary/80 border border-border flex flex-col items-center justify-center overflow-hidden">
           <div className="relative w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-blue-400/15 border border-blue-400/25 flex items-center justify-center text-blue-400 font-serif text-lg sm:text-2xl font-bold">
             YO
           </div>
-          <p className="relative text-[11px] sm:text-sm text-stone-300 mt-2 sm:mt-3 font-medium">
+          <p className="relative text-[11px] sm:text-sm text-foreground mt-2 sm:mt-3 font-medium">
             You
           </p>
-          <p className="relative text-[9px] sm:text-[11px] text-stone-500">
+          <p className="relative text-[9px] sm:text-[11px] text-muted-foreground">
             Candidate
           </p>
-          <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 backdrop-blur-sm">
-            <MicOff size={10} className="text-stone-500" />
-            <span className="text-[8px] sm:text-[9px] text-stone-500">
+          <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 flex items-center gap-1.5 px-2 py-1 rounded-full bg-accent backdrop-blur-sm">
+            <MicOff size={10} className="text-muted-foreground" />
+            <span className="text-[8px] sm:text-[9px] text-muted-foreground">
               Listening
             </span>
           </div>
@@ -109,7 +109,7 @@ function VideoCallView({ active }) {
       </div>
 
       {/* Bottom controls */}
-      <div className="flex items-center justify-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 border-t border-white/10">
+      <div className="flex items-center justify-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 border-t border-border">
         {[
           { icon: <Mic size={14} />, active: true },
           { icon: <MonitorUp size={14} />, active: true },
@@ -121,7 +121,7 @@ function VideoCallView({ active }) {
             className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors ${
               btn.danger
                 ? "bg-red-500/80 text-white hover:bg-red-500"
-                : "bg-white/10 text-stone-400 hover:bg-white/15"
+                : "bg-accent text-muted-foreground hover:bg-white/15"
             }`}
           >
             {btn.icon}
@@ -168,14 +168,14 @@ function AIQuestionsView({ active }) {
   return (
     <div className="w-full h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 sm:px-6 py-3 border-b border-white/10">
+      <div className="flex items-center gap-2 px-4 sm:px-6 py-3 border-b border-border">
         <Sparkles size={13} className="text-amber-400" />
-        <span className="text-[11px] sm:text-xs text-stone-300 font-medium">
+        <span className="text-[11px] sm:text-xs text-foreground font-medium">
           AI Co-pilot · Frontend Engineer · L5
         </span>
         <div className="ml-auto flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[10px] text-stone-500">Generating</span>
+          <span className="text-[10px] text-muted-foreground">Generating</span>
         </div>
       </div>
 
@@ -198,8 +198,8 @@ function AIQuestionsView({ active }) {
             <div
               className={`max-w-[85%] text-[11px] sm:text-xs leading-relaxed px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl ${
                 q.role === "ai"
-                  ? "bg-amber-400/10 border border-amber-400/15 text-stone-300 rounded-tl-sm"
-                  : "bg-white/5 border border-white/10 text-stone-400 rounded-tr-sm"
+                  ? "bg-amber-400/10 border border-amber-400/15 text-foreground rounded-tl-sm"
+                  : "bg-muted/50 border border-border text-muted-foreground rounded-tr-sm"
               }`}
             >
               {q.text}
@@ -218,15 +218,15 @@ function AIQuestionsView({ active }) {
                 />
               ))}
             </div>
-            <span className="text-[10px] text-stone-600">AI is typing...</span>
+            <span className="text-[10px] text-muted-foreground/70">AI is typing...</span>
           </div>
         )}
       </div>
 
       {/* Input bar */}
-      <div className="px-4 sm:px-6 py-3 border-t border-white/10">
-        <div className="flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl bg-white/5 border border-white/10">
-          <span className="text-[11px] sm:text-xs text-stone-600">
+      <div className="px-4 sm:px-6 py-3 border-t border-border">
+        <div className="flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl bg-muted/50 border border-border">
+          <span className="text-[11px] sm:text-xs text-muted-foreground/70">
             Type your answer or speak...
           </span>
           <div className="ml-auto w-7 h-7 rounded-full bg-amber-400/15 flex items-center justify-center">
@@ -273,12 +273,12 @@ function AIFeedbackView({ active }) {
   return (
     <div className="w-full h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 sm:px-6 py-3 border-b border-white/10">
+      <div className="flex items-center gap-2 px-4 sm:px-6 py-3 border-b border-border">
         <BarChart3 size={13} className="text-amber-400" />
-        <span className="text-[11px] sm:text-xs text-stone-300 font-medium">
+        <span className="text-[11px] sm:text-xs text-foreground font-medium">
           Session Complete · Frontend Interview
         </span>
-        <span className="ml-auto text-[10px] sm:text-[11px] text-stone-500">
+        <span className="ml-auto text-[10px] sm:text-[11px] text-muted-foreground">
           Score: 86/100
         </span>
       </div>
@@ -289,14 +289,14 @@ function AIFeedbackView({ active }) {
           {SCORES.map((s, i) => (
             <div key={s.label} className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs sm:text-[11px] text-stone-400">
+                <span className="text-xs sm:text-[11px] text-muted-foreground">
                   {s.label}
                 </span>
-                <span className="text-xs sm:text-[11px] text-stone-500 font-mono">
+                <span className="text-xs sm:text-[11px] text-muted-foreground font-mono">
                   {revealed > i ? s.score : 0}%
                 </span>
               </div>
-              <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+              <div className="h-2 rounded-full bg-muted/50 overflow-hidden">
                 <div
                   className={`h-full rounded-full bg-linear-to-r ${s.color} transition-all duration-700 ease-out`}
                   style={{ width: revealed > i ? `${s.score}%` : "0%" }}
@@ -306,11 +306,11 @@ function AIFeedbackView({ active }) {
           ))}
         </div>
 
-        <div className="h-px bg-white/10" />
+        <div className="h-px bg-accent" />
 
         {/* Key highlights */}
         <div>
-          <p className="text-[10px] sm:text-[11px] font-semibold text-stone-500 tracking-widest uppercase mb-3">
+          <p className="text-[10px] sm:text-[11px] font-semibold text-muted-foreground tracking-widest uppercase mb-3">
             Key Highlights
           </p>
           <div className="space-y-2 sm:space-y-2.5">
@@ -328,7 +328,7 @@ function AIFeedbackView({ active }) {
                 >
                   {h.type === "good" ? "✓" : "↑"}
                 </span>
-                <span className="text-[11px] sm:text-xs text-stone-400 leading-relaxed">
+                <span className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
                   {h.text}
                 </span>
               </div>
@@ -364,7 +364,7 @@ export default function DemoPreview() {
           gray='A platform built for'
           gold='real interview prep'
         />
-        <p className='text-stone-400 mt-4 text-sm max-w-lg mx-auto leading-relaxed'>
+        <p className='text-muted-foreground mt-4 text-sm max-w-lg mx-auto leading-relaxed'>
           Watch how Prept combines expert-led mock interviews with AI-powered
           tools to give you the edge in your next interview.
         </p>
@@ -374,21 +374,21 @@ export default function DemoPreview() {
         {/* Glow behind frame */}
         <div className='absolute -inset-4 sm:-inset-6 lg:-inset-8 bg-linear-to-b from-amber-400/10 via-amber-400/5 to-transparent rounded-3xl blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700' />
 
-        <div className='relative rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden shadow-[0_0_80px_-20px_rgba(251,191,36,0.1)]'>
+        <div className='relative rounded-xl sm:rounded-2xl border border-border bg-muted/30 backdrop-blur-xl overflow-hidden shadow-[0_0_80px_-20px_rgba(251,191,36,0.1)]'>
           {/* Browser chrome */}
-          <div className='flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 border-b border-white/10 bg-white/[0.02]'>
+          <div className='flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 border-b border-border bg-muted/20'>
             <span className='w-2.5 h-2.5 rounded-full bg-[#ff5f57]' />
             <span className='w-2.5 h-2.5 rounded-full bg-[#ffbd2e]' />
             <span className='w-2.5 h-2.5 rounded-full bg-[#28c840]' />
-            <div className='ml-3 sm:ml-4 flex-1 max-w-xs h-6 rounded-md bg-white/5 border border-white/10 flex items-center px-3'>
-              <span className='text-[10px] text-stone-500 font-mono'>
+            <div className='ml-3 sm:ml-4 flex-1 max-w-xs h-6 rounded-md bg-muted/50 border border-border flex items-center px-3'>
+              <span className='text-[10px] text-muted-foreground font-mono'>
                 prept.app/interview/session
               </span>
             </div>
           </div>
 
           {/* Tab bar — scattered evenly */}
-          <div className='flex items-center justify-between px-6 sm:px-10 py-3 border-b border-white/10 bg-white/[0.02]'>
+          <div className='flex items-center justify-between px-6 sm:px-10 py-3 border-b border-border bg-muted/20'>
             {DEMO_TABS.map((tab) => (
               <button
                 key={tab.id}
@@ -396,7 +396,7 @@ export default function DemoPreview() {
                 className={`relative flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-lg text-[11px] sm:text-xs font-medium transition-all duration-300 cursor-pointer ${
                   activeTab === tab.id
                     ? 'bg-amber-400/10 text-amber-400 border border-amber-400/20'
-                    : 'text-stone-500 hover:text-stone-300 hover:bg-white/5 border border-transparent'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50 border border-transparent'
                 }`}
               >
                 {tab.icon}
@@ -409,7 +409,7 @@ export default function DemoPreview() {
           </div>
 
           {/* Demo content — fills available screen height */}
-          <div className='relative min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] bg-gradient-to-br from-[#0a0a0d] via-[#0f0f14] to-[#0a0a0d]'>
+          <div className='relative min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] bg-gradient-to-br from-background via-card to-background'>
             {/* Decorative grid */}
             <div
               className='absolute inset-0 opacity-[0.03]'
@@ -465,7 +465,7 @@ export default function DemoPreview() {
             className={`flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-sm text-xs cursor-pointer transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-amber-400/10 border border-amber-400/25 text-amber-300'
-                : 'bg-white/5 border border-white/10 text-stone-400 hover:border-white/20 hover:text-stone-300'
+                : 'bg-muted/50 border border-border text-muted-foreground hover:border-white/20 hover:text-foreground'
             }`}
           >
             <span className={activeTab === tab.id ? 'text-amber-400' : ''}>
