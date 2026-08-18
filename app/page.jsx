@@ -210,6 +210,9 @@ export default function Home() {
       {/* How it works */}
       <HowItWorks />
 
+      {/* DEMO PREVIEW */}
+      <DemoPreview />
+
       {/* FEATURES BENTO GRID */}
       <section className='relative z-10 py-28 max-w-5xl mx-auto px-6'>
         <div className='text-center mb-16'>
@@ -309,6 +312,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TESTIMONIALS */}
+      <Testimonials />
+
       {/* WHO IT'S FOR */}
       <section className='relative z-10 pb-28 max-w-5xl mx-auto px-6'>
         <div className='text-center mb-16'>
@@ -351,12 +357,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      {/* DEMO PREVIEW */}
-      <DemoPreview />
-
-      {/* TESTIMONIALS */}
-      <Testimonials />
 
       {/* PRICING */}
       <section className='relative z-10 pb-28 max-w-5xl mx-auto px-6'>

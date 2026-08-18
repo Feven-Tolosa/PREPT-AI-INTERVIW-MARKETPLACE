@@ -32,11 +32,11 @@ export default function Footer() {
             </div>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <Link href="/onboarding" className="w-full md:w-auto">
+            {/* <Link href="/onboarding" className="w-full md:w-auto">
               <Button variant="gold" size="sm" className="w-full md:w-auto px-5 py-2.5 text-xs font-semibold">
                 Get Started Free <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
 
