@@ -45,10 +45,7 @@ export default function Footer() {
           {/* COL 1: Brand & Status */}
           <div className="lg:col-span-2 flex flex-col gap-5">
             <Link href="/" className="flex items-center gap-2">
-              <span className="font-serif text-2xl tracking-tighter font-bold">
-                <GrayTitle>PRE</GrayTitle>
-                <GoldTitle>PT</GoldTitle>
-              </span>
+              <img src="/logo.png" alt="Prept Logo" className="h-8 w-auto" />
             </Link>
 
             <p className="text-xs text-muted-foreground font-light leading-relaxed max-w-sm">
