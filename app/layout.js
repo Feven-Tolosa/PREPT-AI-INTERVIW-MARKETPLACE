@@ -6,6 +6,7 @@ import { DM_Sans, Lora } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Toaster } from "sonner";
+import Script from "next/script";
 
 const lora = Lora({
   subsets: ["latin"],
@@ -43,6 +44,10 @@ export default function RootLayout({ children }) {
           >
             <Header />
             <main className="min-h-screen">{children}</main>
+              <Script 
+          src="https://js.chapa.co/v1/inline.js" 
+          strategy="lazyOnload" 
+        />
             <Toaster richColors />
             <Footer />
           </ThemeProvider>
