@@ -73,6 +73,7 @@ const Header = async () => {
                 : user?.credits) ?? 0
             }
           />
+          
 
           <UserButton />
         </Show>
