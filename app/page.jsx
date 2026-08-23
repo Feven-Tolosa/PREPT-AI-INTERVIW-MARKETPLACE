@@ -99,7 +99,7 @@ export default function Home() {
                   Ace your next interview
                 </span>
 
-                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both bg-linear-to-br from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent'>
+                <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both bg-linear-to-br from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent pb-3.5'>
                   with real experts
                 </span>
               </h1>
