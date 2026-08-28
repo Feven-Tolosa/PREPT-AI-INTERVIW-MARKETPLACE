@@ -53,9 +53,15 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
   if (!user) throw new Error("Unauthorized");
 
   // ── Arcjet rate limit ──────────────────────────────────────────────────────
-  const req = await request();
-  const rateLimitError = await checkRateLimit(bookingLimiter, req, user.id);
-  if (rateLimitError) throw new Error(rateLimitError);
+  try {
+    const req = await request();
+    const rateLimitError = await checkRateLimit(bookingLimiter, req, user.id);
+    if (rateLimitError) throw new Error(rateLimitError);
+  } catch (err) {
+    // If Arcjet rate limiting fails (e.g. request context unavailable in
+    // server actions), log and continue rather than blocking the booking.
+    console.warn("Arcjet rate limit check skipped:", err.message);
+  }
   // ──────────────────────────────────────────────────────────────────────────
 
   const [dbUser, interviewer] = await Promise.all([
