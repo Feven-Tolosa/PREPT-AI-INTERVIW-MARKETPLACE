@@ -34,16 +34,22 @@ const aj = arcjet({
 
 export default clerkMiddleware(async (auth, req) => {
 
-  // Protect normal traffic
+  // Protect normal traffic. Arcjet is best-effort: if it fails or is
+  // unreachable on the serverless runtime, fail OPEN so its errors can never
+  // break a request or trigger the opaque "Server Components render" crash on
+  // Vercel. Real users are still protected by Clerk auth below.
   if (!isWebhookRoute(req)) {
+    try {
+      const decision = await aj.protect(req);
 
-    const decision = await aj.protect(req);
-
-    if (decision.isDenied()) {
-      return NextResponse.json(
-        { error: "Forbidden" },
-        { status: 403 }
-      );
+      if (decision.isDenied()) {
+        return NextResponse.json(
+          { error: "Forbidden" },
+          { status: 403 }
+        );
+      }
+    } catch (err) {
+      console.warn("Arcjet middleware check skipped:", err?.message || err);
     }
   }
 
