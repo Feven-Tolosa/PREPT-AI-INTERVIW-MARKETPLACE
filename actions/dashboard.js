@@ -3,8 +3,6 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { request } from "@arcjet/next";
-import { createRateLimiter, checkRateLimit } from "@/lib/arcjet";
 import { Resend } from "resend";
 import { WithdrawalRequestEmail } from "@/emails/WithdrawalRequestEmail";
 import { render } from "@react-email/render";
@@ -23,12 +21,7 @@ const getResendClient = () => {
   return resend;
 };
 
-const withdrawalLimiter = createRateLimiter({
-  refillRate: 1,
-  interval: "1h",
-  capacity: 3,
-});
-
+// ─── AVAILABILITY ─────────────────────────────────────────────────────────────
 // ─── AVAILABILITY ─────────────────────────────────────────────────────────────
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
@@ -134,15 +127,6 @@ export const requestWithdrawal = async ({
 }) => {
   const user = await currentUser();
   if (!user) throw new Error("Unauthorized");
-
-  let req = null;
-  try {
-    req = await request();
-  } catch (err) {
-    console.warn("Arcjet request context unavailable:", err?.message || err);
-  }
-  const rateLimitError = await checkRateLimit(withdrawalLimiter, req, user.id);
-  if (rateLimitError) throw new Error(rateLimitError);
 
   const dbUser = await db.user.findUnique({ where: { clerkUserId: user.id } });
   if (!dbUser || dbUser.role !== "INTERVIEWER") throw new Error("Forbidden");

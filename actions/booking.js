@@ -4,16 +4,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { createStreamClient } from "@/lib/stream";
 import { revalidatePath } from "next/cache";
-import { request } from "@arcjet/next";
-import { createRateLimiter, checkRateLimit } from "@/lib/arcjet";
-
-// 5 booking attempts per hour — generous enough for real users,
-// tight enough to block automated abuse
-const bookingLimiter = createRateLimiter({
-  refillRate: 2,
-  interval: "1h",
-  capacity: 5,
-});
 
 export const getInterviewerProfile = async (interviewerId) => {
   try {
@@ -51,21 +41,6 @@ export const getInterviewerProfile = async (interviewerId) => {
 export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
   const user = await currentUser();
   if (!user) throw new Error("Unauthorized");
-
-  // ── Arcjet rate limit ──────────────────────────────────────────────────────
-  // `request()` may be unavailable inside Next.js server actions on Vercel
-  // and would otherwise crash the action with an opaque "Server Components
-  // render" error. Resolve it defensively and let checkRateLimit skip the
-  // check if it's unavailable.
-  let req = null;
-  try {
-    req = await request();
-  } catch (err) {
-    console.warn("Arcjet request context unavailable:", err?.message || err);
-  }
-  const rateLimitError = await checkRateLimit(bookingLimiter, req, user.id);
-  if (rateLimitError) throw new Error(rateLimitError);
-  // ──────────────────────────────────────────────────────────────────────────
 
   const [dbUser, interviewer] = await Promise.all([
     db.user.findUnique({ where: { clerkUserId: user.id } }),
