@@ -16,15 +16,18 @@ export default async function InterviewerProfilePage({ params }) {
   const { id } = await params
 
   const user = await currentUser()
-  if (!user) redirect('/')
 
-  const dbUser = await db.user.findUnique({
-    where: { clerkUserId: user.id },
-    select: { role: true, credits: true },
-  })
-
-  if (!dbUser) redirect('/')
-  if (dbUser.role === 'UNASSIGNED') redirect('/onboarding')
+  let userCredits = 0
+  if (user) {
+    const dbUser = await db.user.findUnique({
+      where: { clerkUserId: user.id },
+      select: { role: true, credits: true },
+    })
+    if (dbUser) {
+      userCredits = dbUser.credits
+      if (dbUser.role === 'UNASSIGNED') redirect('/onboarding')
+    }
+  }
 
   const interviewer = await getInterviewerProfile(id)
 
@@ -166,7 +169,7 @@ export default async function InterviewerProfilePage({ params }) {
           <SlotPicker
             interviewer={interviewer}
             interviewerCredits={interviewer.creditRate ?? 10}
-            userCredits={dbUser.credits}
+            userCredits={userCredits}
           />
         </div>
       </div>
