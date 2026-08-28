@@ -135,7 +135,12 @@ export const requestWithdrawal = async ({
   const user = await currentUser();
   if (!user) throw new Error("Unauthorized");
 
-  const req = await request();
+  let req = null;
+  try {
+    req = await request();
+  } catch (err) {
+    console.warn("Arcjet request context unavailable:", err?.message || err);
+  }
   const rateLimitError = await checkRateLimit(withdrawalLimiter, req, user.id);
   if (rateLimitError) throw new Error(rateLimitError);
 

@@ -53,7 +53,16 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
   if (!user) throw new Error("Unauthorized");
 
   // ── Arcjet rate limit ──────────────────────────────────────────────────────
-  const req = await request();
+  // `request()` may be unavailable inside Next.js server actions on Vercel
+  // and would otherwise crash the action with an opaque "Server Components
+  // render" error. Resolve it defensively and let checkRateLimit skip the
+  // check if it's unavailable.
+  let req = null;
+  try {
+    req = await request();
+  } catch (err) {
+    console.warn("Arcjet request context unavailable:", err?.message || err);
+  }
   const rateLimitError = await checkRateLimit(bookingLimiter, req, user.id);
   if (rateLimitError) throw new Error(rateLimitError);
   // ──────────────────────────────────────────────────────────────────────────
