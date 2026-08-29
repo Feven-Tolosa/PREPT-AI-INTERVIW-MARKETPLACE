@@ -98,6 +98,7 @@ model Availability {
   isActive      Boolean  @default(true)
   startTime     String
   endTime       String
+  timezone      String   @default("UTC")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
