@@ -29,6 +29,7 @@ export default function SlotPicker({
   const dates = useMemo(() => generateDates(DAYS_AHEAD), []);
 
   const availability = interviewer.availabilities?.[0];
+  const timeZone = availability?.timezone || "UTC";
   const canAfford = userCredits >= interviewerCredits;
   const bookings = useMemo(
     () => interviewer.bookingsAsInterviewer ?? [],
@@ -44,15 +45,17 @@ export default function SlotPicker({
         availability.startTime,
         availability.endTime,
         bookings,
-        SLOT_DURATION_MINUTES
+        SLOT_DURATION_MINUTES,
+        timeZone
       ).some((s) => s.available)
     );
     return firstWithSlots ?? dates[0];
-  }, [dates, availability, bookings]);
+  }, [dates, availability, bookings, timeZone]);
 
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [confirmError, setConfirmError] = useState(null);
 
   const summaryRef = useRef(null);
 
@@ -74,9 +77,10 @@ export default function SlotPicker({
       availability.startTime,
       availability.endTime,
       bookings,
-      SLOT_DURATION_MINUTES
+      SLOT_DURATION_MINUTES,
+      timeZone
     );
-  }, [selectedDate, availability, bookings]);
+  }, [selectedDate, availability, bookings, timeZone]);
 
   useEffect(() => {
     if (data?.success && data.streamCallId) {
@@ -100,13 +104,19 @@ export default function SlotPicker({
     );
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!selectedSlot) return;
-    bookFn({
+    setConfirmError(null);
+    const result = await bookFn({
       interviewerId: interviewer.id,
       startTime: selectedSlot.startTime.toISOString(),
       endTime: selectedSlot.endTime.toISOString(),
     });
+    // Server actions return structured results in production instead of
+    // throwing (Next.js hides thrown action errors) — render them inline.
+    if (result && result.success === false) {
+      setConfirmError(result.error || "Booking failed. Please try again.");
+    }
   };
 
   const windowActive = availability && availability.isActive !== false;
@@ -293,8 +303,10 @@ export default function SlotPicker({
               </p>
             </div>
 
-            {error && (
-              <p className="text-xs text-red-400">{error?.message || error}</p>
+            {(error || confirmError) && (
+              <p className="text-xs text-red-400">
+                {confirmError || error?.message || error}
+              </p>
             )}
 
             <div className="flex gap-2">

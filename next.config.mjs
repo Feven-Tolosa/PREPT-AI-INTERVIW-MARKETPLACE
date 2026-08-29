@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  serverExternalPackages: [
+    "@arcjet/next",
+    "arcjet",
+    "@arcjet/analyze",
+    "@arcjet/analyze-wasm",
+  ],
   images: {
     remotePatterns: [
       {
