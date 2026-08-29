@@ -17,11 +17,26 @@ export default function AvailabilitySection({ initial }) {
   const [startTime, setStartTime] = useState(initial?.startTime ?? "");
   const [endTime, setEndTime] = useState(initial?.endTime ?? "");
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+
+  // The recurring window is anchored to this IANA timezone so booking slot
+  // generation and server-side validation agree — including on Vercel where
+  // serverless functions run in UTC.
+  const browserTimeZone = () => {
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+    } catch {
+      return "UTC";
+    }
+  };
 
   const { data, loading, error, fn: saveFn } = useFetch(setAvailability);
 
   useEffect(() => {
-    if (data?.success) {
+    if (data?.success === false) {
+      setSaveError(data.error || "Failed to save availability");
+    } else if (data?.success) {
+      setSaveError(null);
       setSaved(true);
       const t = setTimeout(() => setSaved(false), 3000);
       return () => clearTimeout(t);
@@ -44,9 +59,18 @@ export default function AvailabilitySection({ initial }) {
   const isTimeValid = duration !== null;
   const isValid = hasWindow && isTimeValid;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!isValid) return;
-    saveFn({ isActive, startTime, endTime });
+    setSaveError(null);
+    const result = await saveFn({
+      isActive,
+      startTime,
+      endTime,
+      timezone: browserTimeZone(),
+    });
+    if (result && result.success === false) {
+      setSaveError(result.error || "Failed to save availability");
+    }
   };
 
   return (
@@ -207,8 +231,10 @@ export default function AvailabilitySection({ initial }) {
       </div>
 
       {/* Server Error */}
-      {error && (
-        <p className="text-xs text-red-400">{error?.message || error}</p>
+      {(saveError || error) && (
+        <p className="text-xs text-red-400">
+          {saveError || error?.message || error}
+        </p>
       )}
 
       {/* Save Button */}

@@ -6,6 +6,7 @@ import { createStreamClient } from "@/lib/stream";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
 import { createRateLimiter, checkRateLimit } from "@/lib/arcjet";
+import { getDailyWindowBounds } from "@/lib/helpers";
 
 // 5 booking attempts per hour — generous enough for real users,
 // tight enough to block automated abuse
@@ -14,6 +15,24 @@ const bookingLimiter = createRateLimiter({
   interval: "1h",
   capacity: 5,
 });
+
+// Logs a booking failure server-side (Vercel function logs) with a correlation
+// id so the client digest can be matched back. Never logs request bodies or
+// secrets — only the error type and stack.
+function logBookingError(stage, traceId, err) {
+  console.error(`[bookSlot] ${stage} failed (traceId=${traceId})`, {
+    message: err instanceof Error ? err.message : String(err),
+    stack: err instanceof Error ? err.stack : undefined,
+  });
+}
+
+function ok(result) {
+  return { success: true, ...result };
+}
+
+function fail(error) {
+  return { success: false, error };
+}
 
 export const getInterviewerProfile = async (interviewerId) => {
   try {
@@ -31,7 +50,7 @@ export const getInterviewerProfile = async (interviewerId) => {
         creditRate: true,
         availabilities: {
           where: { isActive: true },
-          select: { startTime: true, endTime: true, isActive: true },
+          select: { startTime: true, endTime: true, timezone: true, isActive: true },
           take: 1,
         },
         bookingsAsInterviewer: {
@@ -49,18 +68,23 @@ export const getInterviewerProfile = async (interviewerId) => {
 };
 
 export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
+  const traceId =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
   const user = await currentUser();
-  if (!user) throw new Error("Unauthorized");
+  if (!user) return fail("Unauthorized. Please sign in and try again.");
 
   // ── Arcjet rate limit ──────────────────────────────────────────────────────
   try {
     const req = await request();
     const rateLimitError = await checkRateLimit(bookingLimiter, req, user.id);
-    if (rateLimitError) throw new Error(rateLimitError);
+    if (rateLimitError) return fail(rateLimitError);
   } catch (err) {
     // If Arcjet rate limiting fails (e.g. request context unavailable in
     // server actions), log and continue rather than blocking the booking.
-    console.warn("Arcjet rate limit check skipped:", err.message);
+    console.warn("[bookSlot] Arcjet rate limit check skipped:", err.message);
   }
   // ──────────────────────────────────────────────────────────────────────────
 
@@ -70,56 +94,54 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
   ]);
 
   if (!dbUser || dbUser.role !== "INTERVIEWEE")
-    throw new Error("Only interviewees can book sessions");
+    return fail("Only interviewees can book sessions");
   if (!interviewer || interviewer.role !== "INTERVIEWER")
-    throw new Error("Interviewer not found");
+    return fail("Interviewer not found");
 
-  const credits = interviewer.creditRate ?? 10;
+  const credits = interviewer.creditRate ?? 1;
 
   if (dbUser.credits < credits)
-    throw new Error("Insufficient credits. Please upgrade your plan.");
+    return fail("Insufficient credits. Please upgrade your plan.");
 
-  // Verify the requested time falls inside the interviewer's active daily window
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+
+  // Verify the requested time falls inside the interviewer's active daily
+  // window. The window is stored as wall-clock hours anchored to the
+  // interviewer's IANA timezone, so the same conversion is used here and in
+  // the client slot picker — this stays correct on Vercel (UTC lambdas)
+  // instead of silently drifting by the runtime's local timezone.
   const availability = await db.availability.findFirst({
     where: { interviewerId, isActive: true },
   });
 
-  if (availability) {
-    const [sh, sm] = (availability.startTime ?? "").split(":").map(Number);
-    const [eh, em] = (availability.endTime ?? "").split(":").map(Number);
-    const start = new Date(startTime);
-    const end = new Date(endTime);
-    const winStart = new Date(start);
-    winStart.setHours(sh, sm, 0, 0);
-    const winEnd = new Date(start);
-    winEnd.setHours(eh, em, 0, 0);
-
-    if (isNaN(sh) || isNaN(sm) || isNaN(eh) || isNaN(em))
-      throw new Error("Interviewer has no valid availability window");
-    if (start < winStart || end > winEnd)
-      throw new Error(
-        "Selected time is outside the interviewer's availability window"
-      );
-  } else {
-    throw new Error("Interviewer is currently unavailable");
+  if (!availability) {
+    return fail("Interviewer is currently unavailable");
   }
 
-  // Check slot isn't already taken
-  const conflict = await db.booking.findFirst({
-    where: {
-      interviewerId,
-      status: "SCHEDULED",
-      startTime: { lt: new Date(endTime) },
-      endTime: { gt: new Date(startTime) },
-    },
-  });
-  if (conflict)
-    throw new Error("This slot was just booked. Please pick another.");
+  const bounds = getDailyWindowBounds(
+    start,
+    availability.startTime,
+    availability.endTime,
+    availability.timezone
+  );
+  if (!bounds) return fail("Interviewer has no valid availability window");
+  const [winStart, winEnd] = bounds;
 
-  // ── Create Stream call ─────────────────────────────────────────────────────
+  if (start < winStart || end > winEnd) {
+    return fail(
+      "Selected time is outside the interviewer's availability window"
+    );
+  }
+
+  // ── Create Stream call ────────────────────────────────────────────────────
+  // Room is created BEFORE the transaction so credits are never deducted when
+  // the (more fragile) external API call fails. If the transaction then fails,
+  // the orphaned room is ended best-effort below.
+  let streamClient;
   let streamCallId;
   try {
-    const streamClient = createStreamClient({ timeout: 30_000 });
+    streamClient = createStreamClient({ timeout: 30_000 });
 
     await streamClient.upsertUsers([
       {
@@ -153,7 +175,6 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
           recording: { mode: "available", quality: "1080p" },
           screensharing: {
             enabled: true,
-            // target_resolution: { width: 1920, height: 1080 },
           },
           transcription: {
             mode: "auto-on", // starts when first user joins, stops when all leave
@@ -162,18 +183,37 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
       },
     });
   } catch (err) {
-    console.error("Stream call creation failed:", err);
-    throw new Error("Failed to create video call. Please try again.");
+    logBookingError("stream_call_creation", traceId, err);
+    return fail("Failed to create video call. Please try again.");
   }
+
+  // Sentinel used to abort the transaction with a user-friendly message when
+  // the slot was taken between the pre-check and the insert.
+  const SLOT_TAKEN = Object.assign(new Error("Slot taken"), {
+    code: "SLOT_TAKEN",
+  });
 
   try {
     const booking = await db.$transaction(async (tx) => {
+      // Re-check for conflicts inside the transaction so a concurrent booking
+      // of the same slot rolls the whole operation back — credits are never
+      // deducted for a slot that ended up taken.
+      const conflict = await tx.booking.findFirst({
+        where: {
+          interviewerId,
+          status: "SCHEDULED",
+          startTime: { lt: end },
+          endTime: { gt: start },
+        },
+      });
+      if (conflict) throw SLOT_TAKEN;
+
       const newBooking = await tx.booking.create({
         data: {
           intervieweeId: dbUser.id,
           interviewerId,
-          startTime: new Date(startTime),
-          endTime: new Date(endTime),
+          startTime: start,
+          endTime: end,
           status: "SCHEDULED",
           creditsCharged: credits,
           streamCallId,
@@ -203,10 +243,37 @@ export const bookSlot = async ({ interviewerId, startTime, endTime }) => {
 
     revalidatePath(`/interviewers/${interviewerId}`);
     revalidatePath("/dashboard");
+    revalidatePath("/appointments");
 
-    return { success: true, bookingId: booking.id, streamCallId };
+    return ok({ bookingId: booking.id, streamCallId });
   } catch (err) {
-    console.error("bookSlot transaction failed:", err);
-    throw new Error("Booking failed. Please try again.");
+    if (err === SLOT_TAKEN) {
+      // The user's credits were never touched (transaction rolled back), but
+      // the pre-created call room would otherwise linger — end it.
+      if (streamClient && streamCallId) {
+        try {
+          await streamClient.video.call("default", streamCallId).end();
+        } catch (cleanupErr) {
+          console.warn(
+            `[bookSlot] orphaned call cleanup skipped (${streamCallId}):`,
+            cleanupErr.message
+          );
+        }
+      }
+      return fail("This slot was just booked. Please pick another.");
+    }
+
+    logBookingError("transaction", traceId, err);
+    if (streamClient && streamCallId) {
+      try {
+        await streamClient.video.call("default", streamCallId).end();
+      } catch (cleanupErr) {
+        console.warn(
+          `[bookSlot] orphaned call cleanup skipped (${streamCallId}):`,
+          cleanupErr.message
+        );
+      }
+    }
+    return fail("Booking failed. Please try again.");
   }
 };
