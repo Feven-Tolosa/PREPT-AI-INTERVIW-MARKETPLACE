@@ -19,6 +19,7 @@ import DemoPreview from '@/components/DemoPreview'
 import Testimonials from '@/components/Testimonials'
 
 import HeroPreview from '@/components/HeroPreview'
+import Checkout from '@/components/checkout'
 
 function MockUI({ rows = 3 }) {
   const widths = ['w-4/5', 'w-3/5', 'w-2/5', 'w-4/5', 'w-1/2']
@@ -98,7 +99,7 @@ export default function Home() {
                 <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both bg-linear-to-br from-stone-200 via-stone-300 to-stone-500 bg-clip-text text-transparent pb-3'>
                   Ace your next interview
                 </span>
-                
+
                 <span className='block animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both bg-linear-to-br from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent'>
                   with real experts
                 </span>
@@ -123,6 +124,12 @@ export default function Home() {
                     Browse Interviewers →
                   </Button>
                 </Link>
+              </div>
+              <div
+                id='checkout'
+                className='animate-in fade-in slide-in-from-bottom-5 duration-700 delay-500 fill-mode-both'
+              >
+                <Checkout />
               </div>
 
               {/* Social proof — horizontal bar */}
@@ -244,7 +251,9 @@ export default function Home() {
             >
               <div className='mt-5 rounded-xl bg-muted/30 backdrop-blur-md border border-border p-5 flex justify-between items-end'>
                 <div>
-                  <p className='text-xs text-muted-foreground/70 mb-1'>Your balance</p>
+                  <p className='text-xs text-muted-foreground/70 mb-1'>
+                    Your balance
+                  </p>
                   <p className='font-serif text-4xl leading-none bg-linear-to-br from-amber-300 to-amber-500 bg-clip-text text-transparent'>
                     28
                   </p>
@@ -343,7 +352,10 @@ export default function Home() {
 
               <ul className='relative space-y-3'>
                 {role.perks.map((p) => (
-                  <li key={p} className='flex gap-3 text-sm text-muted-foreground'>
+                  <li
+                    key={p}
+                    className='flex gap-3 text-sm text-muted-foreground'
+                  >
                     <span className='mt-0.5 min-w-4 h-4 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-xs text-amber-400'>
                       ✓
                     </span>

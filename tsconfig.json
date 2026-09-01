@@ -33,7 +33,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/return/page.jsx", "lib/stripe.js"  ],
   "exclude": [
     "node_modules"
   ]

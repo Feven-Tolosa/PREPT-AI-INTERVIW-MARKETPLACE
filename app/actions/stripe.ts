@@ -1,36 +1,48 @@
 'use server'
 
-import Stripe from 'stripe'
+import { stripe } from '@/lib/stripe'
+import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-01-27.acacia', // Use the latest or your preferred API version
-})
-
 export async function createCheckoutSession(priceId: string) {
-  let sessionUrl = ''
+  const origin = (await headers()).get('origin') ?? 'http://localhost:3000'
 
-  try {
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: priceId, // Pass a product price ID configured in your Stripe Dashboard
-          quantity: 1,
-        },
-      ],
-      mode: 'payment', // Use 'subscription' for recurring payments
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/canceled`,
-    })
+  const session = await stripe.checkout.sessions.create({
+    mode: 'payment',
+    line_items: [
+      {
+        price: priceId,
+        quantity: 1,
+      },
+    ],
+    success_url: `${origin}/success`,
+    cancel_url: `${origin}`,
+  })
 
-    sessionUrl = session.url!
-  } catch (error) {
-    console.error('Stripe error:', error)
-    throw new Error('Failed to create checkout session.')
+  if (!session.url) {
+    throw new Error('Failed to create checkout session')
   }
 
-  // Redirect the user to the Stripe-hosted checkout page
-  if (sessionUrl) {
-    redirect(sessionUrl)
-  }
+  redirect(session.url)
+}
+
+export async function fetchClientSecret() {
+  const origin = (await headers()).get('origin')
+
+  // Create Checkout Sessions from body params.
+  const session = await stripe.checkout.sessions.create({
+    ui_mode: 'embedded_page',
+    line_items: [
+      {
+        // Provide the exact Price ID (for example, price_1234) of
+        // the product you want to sell
+        price: '{{PRICE_ID}}',
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    return_url: `${origin}/return?session_id={CHECKOUT_SESSION_ID}`,
+  })
+
+  return session.client_secret
 }
